@@ -1,274 +1,54 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f4f5f1" />
-    <meta
-      name="description"
-      content="Moduly bündelt Studienplan, Module und Prüfungen in einer persönlichen Übersicht."
-    />
-    <title>Moduly | Dein Studienplan</title>
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/styles.css" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
-
-    <div class="app-shell">
-      <aside class="sidebar" id="sidebar" aria-label="Hauptnavigation">
-        <div class="brand-row">
-          <button class="brand" type="button" data-page-target="overview" aria-label="Zur Übersicht">
-            <span class="brand-mark" aria-hidden="true">M</span>
-            <span>moduly</span>
-          </button>
-          <button class="sidebar-close icon-button" type="button" data-sidebar-close aria-label="Menü schließen">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-
-        <div class="degree-switcher">
-          <span class="degree-switcher__label">Aktuelles Studium</span>
-          <button class="degree-switcher__button pressable" type="button" data-open-degree>
-            <span>
-              <strong>Internationales WIng.</strong>
-              <small>Hochschule Bremen · PO 2025</small>
-            </span>
-            <span aria-hidden="true">⌄</span>
-          </button>
-        </div>
-
-        <nav class="nav-list" aria-label="Bereiche">
-          <button class="nav-item is-active" type="button" data-page-target="overview">
-            <span class="nav-index">01</span><span>Übersicht</span>
-          </button>
-          <button class="nav-item" type="button" data-page-target="study">
-            <span class="nav-index">02</span><span>Studium</span>
-          </button>
-          <button class="nav-item" type="button" data-page-target="exams">
-            <span class="nav-index">03</span><span>Prüfungen</span>
-          </button>
-          <button class="nav-item" type="button" data-page-target="planning">
-            <span class="nav-index">04</span><span>Planung</span>
-          </button>
-          <button class="nav-item" type="button" data-page-target="settings">
-            <span class="nav-index">05</span><span>Einstellungen</span>
-          </button>
-        </nav>
-
-        <div class="sidebar-foot">
-          <button class="profile-button pressable" type="button" data-page-target="settings">
-            <span class="avatar" aria-hidden="true">MB</span>
-            <span><strong>Muhammed</strong><small>Persönlicher Bereich</small></span>
-          </button>
-          <p>Deine Anpassungen gelten nur für dich.</p>
-        </div>
-      </aside>
-
-      <div class="sidebar-scrim" data-sidebar-close></div>
-
-      <div class="workspace">
-        <header class="topbar">
-          <button class="menu-button icon-button" type="button" data-sidebar-open aria-label="Menü öffnen">
-            <span></span><span></span><span></span>
-          </button>
-          <div class="topbar-context">
-            <span id="mobile-page-name">Übersicht</span>
-            <small>WS 2026/27</small>
-          </div>
-          <div class="topbar-actions">
-            <button class="quiet-button pressable" type="button" data-open-customize>
-              <span class="button-symbol" aria-hidden="true">＋</span>
-              Ansicht anpassen
-            </button>
-            <button class="button-primary pressable" type="button" data-open-module>
-              <span>Modul hinzufügen</span>
-              <span class="button-arrow" aria-hidden="true">↗</span>
-            </button>
-          </div>
-        </header>
-
-        <main id="main-content" tabindex="-1">
-          <section class="page is-active" data-page="overview" aria-labelledby="overview-title">
-            <div class="page-heading">
-              <div>
-                <p class="eyebrow">Freitag, 12. September</p>
-                <h1 id="overview-title">Guten Tag, Muhammed.</h1>
-                <p class="heading-copy">Drei Prüfungen stehen an. Mathematik 1 ist als Nächstes fällig.</p>
-              </div>
-              <div class="semester-stamp" aria-label="Drittes Semester">
-                <span>Semester</span><strong>03</strong>
-              </div>
-            </div>
-
-            <div class="dashboard-grid">
-              <article class="progress-card widget" data-widget="progress">
-                <div class="card-heading">
-                  <div><p class="eyebrow">Studienfortschritt</p><h2>86 von 210 ECTS</h2></div>
-                  <button class="text-button" type="button" data-page-target="study">Studienplan öffnen <span aria-hidden="true">→</span></button>
-                </div>
-                <div class="progress-layout">
-                  <div class="progress-ring" role="img" aria-label="41 Prozent des Studiums abgeschlossen">
-                    <svg viewBox="0 0 132 132" aria-hidden="true">
-                      <circle class="ring-track" cx="66" cy="66" r="54"></circle>
-                      <circle class="ring-value" cx="66" cy="66" r="54"></circle>
-                    </svg>
-                    <div><strong>41%</strong><span>erreicht</span></div>
-                  </div>
-                  <div class="progress-details">
-                    <div><span>Bestanden</span><strong>14 Module</strong></div>
-                    <div><span>In Bearbeitung</span><strong id="active-module-count">6 Module</strong></div>
-                    <div><span>Noch offen</span><strong>124 ECTS</strong></div>
-                  </div>
-                </div>
-              </article>
-
-              <article class="next-card widget" data-widget="nextExam">
-                <div class="date-block"><span>JAN</span><strong>27</strong></div>
-                <div class="next-card__body">
-                  <p class="eyebrow">Nächste Prüfung</p>
-                  <h2>Mathematik 1</h2>
-                  <p>09:00 Uhr · Raum A 204</p>
-                  <div class="countdown"><strong>12</strong><span>Tage verbleibend</span></div>
-                </div>
-                <button class="round-action pressable" type="button" data-page-target="exams" aria-label="Prüfungen öffnen">↗</button>
-              </article>
-
-              <article class="schedule-card widget" data-widget="schedule">
-                <div class="card-heading compact">
-                  <div><p class="eyebrow">Diese Woche</p><h2>Deine Termine</h2></div>
-                  <button class="text-button" type="button" data-page-target="planning">Alle Termine</button>
-                </div>
-                <ol class="timeline">
-                  <li><time datetime="2026-09-14T10:00"><strong>14</strong><span>SEP</span></time><div><strong>Physik Tutorium</strong><span>10:00 · B 115</span></div><span class="time-line">90 Min.</span></li>
-                  <li><time datetime="2026-09-16T13:30"><strong>16</strong><span>SEP</span></time><div><strong>BWL Präsentation</strong><span>13:30 · M 203</span></div><span class="time-line">Abgabe</span></li>
-                  <li><time datetime="2026-09-18T08:15"><strong>18</strong><span>SEP</span></time><div><strong>Werkstofftechnik</strong><span>08:15 · Online</span></div><span class="time-line">Vorlesung</span></li>
-                </ol>
-              </article>
-
-              <article class="module-card widget" data-widget="modules">
-                <div class="card-heading compact">
-                  <div><p class="eyebrow">Aktuelles Semester</p><h2>Module im Blick</h2></div>
-                  <span class="module-summary" id="module-summary">6 aktiv</span>
-                </div>
-                <div class="module-list" id="overview-module-list"></div>
-              </article>
-
-              <article class="note-card widget" data-widget="note">
-                <p class="eyebrow">Persönliche Notiz</p>
-                <label for="quick-note">Was willst du im Blick behalten?</label>
-                <textarea id="quick-note" rows="4" placeholder="Zum Beispiel: Formelblatt für Physik ergänzen"></textarea>
-                <div class="note-footer"><span id="note-status">Lokal gespeichert</span><button class="save-button pressable" type="button" data-save-note>Speichern</button></div>
-              </article>
-            </div>
-          </section>
-
-          <section class="page" data-page="study" aria-labelledby="study-title">
-            <div class="page-heading study-heading">
-              <div><p class="eyebrow">PO 2025 · 7 Semester</p><h1 id="study-title">Dein Studienplan</h1><p class="heading-copy">Änderungen sind persönlich und überschreiben keine offiziellen Hochschuldaten.</p></div>
-              <button class="button-primary pressable" type="button" data-open-module><span>Neues Modul</span><span class="button-arrow" aria-hidden="true">＋</span></button>
-            </div>
-            <div class="personal-info"><span aria-hidden="true">i</span><p><strong>Persönliche Ansicht</strong> Bearbeitete Module werden mit „Von dir bearbeitet“ markiert.</p></div>
-            <div class="semester-tabs" role="tablist" aria-label="Semester auswählen">
-              <button class="is-active" type="button" role="tab" aria-selected="true" data-semester="1">Semester 1</button>
-              <button type="button" role="tab" aria-selected="false" data-semester="2">Semester 2</button>
-              <button type="button" role="tab" aria-selected="false" data-semester="3">Semester 3</button>
-            </div>
-            <div class="study-panel">
-              <div class="study-panel__head"><div><span id="semester-number">01</span><div><h2 id="semester-title">Semester 1</h2><p id="semester-ects">30 ECTS vorgesehen</p></div></div><div class="legend"><span><i class="status-mark done"></i>Bestanden</span><span><i class="status-mark active"></i>Aktiv</span><span><i class="status-mark open"></i>Offen</span></div></div>
-              <div class="study-module-list" id="study-module-list"></div>
-            </div>
-          </section>
-
-          <section class="page" data-page="exams" aria-labelledby="exams-title">
-            <div class="page-heading">
-              <div><p class="eyebrow">Prüfungsphase Januar 2027</p><h1 id="exams-title">Prüfungen</h1><p class="heading-copy">Termine, Räume und Vorbereitung an einem Ort.</p></div>
-              <button class="button-primary pressable" type="button" data-add-exam><span>Prüfung eintragen</span><span class="button-arrow" aria-hidden="true">＋</span></button>
-            </div>
-            <div class="exam-layout">
-              <div class="exam-list" id="exam-list"></div>
-              <aside class="exam-aside"><p class="eyebrow">Prüfungsphase</p><h2>3 Prüfungen</h2><div class="exam-stat"><strong>17</strong><span>Tage zwischen erster und letzter Prüfung</span></div><hr><p>Für zwei Prüfungen fehlt noch ein eingetragener Raum.</p><button class="quiet-button pressable" type="button" data-export-calendar>Kalenderdatei laden</button></aside>
-            </div>
-          </section>
-
-          <section class="page" data-page="planning" aria-labelledby="planning-title">
-            <div class="page-heading"><div><p class="eyebrow">Semesterplanung</p><h1 id="planning-title">Deine nächsten Wochen</h1><p class="heading-copy">Arbeitslast nach Wochen, direkt aus deinen Modulen und Terminen.</p></div></div>
-            <div class="planning-board">
-              <div class="week-scale" aria-hidden="true"><span>KW 38</span><span>KW 39</span><span>KW 40</span><span>KW 41</span></div>
-              <div class="planning-row"><div><strong>Mathematik 1</strong><span>Klausurvorbereitung</span></div><div class="planning-track"><span style="--start: 4%; --length: 78%"></span></div></div>
-              <div class="planning-row"><div><strong>BWL</strong><span>Präsentation</span></div><div class="planning-track"><span style="--start: 1%; --length: 32%"></span></div></div>
-              <div class="planning-row"><div><strong>Physik 1</strong><span>Formelsammlung</span></div><div class="planning-track"><span style="--start: 24%; --length: 67%"></span></div></div>
-              <div class="planning-row"><div><strong>Informatik</strong><span>Übungsblätter</span></div><div class="planning-track"><span style="--start: 12%; --length: 48%"></span></div></div>
-            </div>
-          </section>
-
-          <section class="page" data-page="settings" aria-labelledby="settings-title">
-            <div class="page-heading"><div><p class="eyebrow">Persönlicher Bereich</p><h1 id="settings-title">Einstellungen</h1><p class="heading-copy">Passe Moduly an deinen Arbeitsalltag an.</p></div></div>
-            <div class="settings-stack">
-              <article class="settings-section"><div><h2>Dashboard</h2><p>Wähle, welche Informationen auf deiner Übersicht erscheinen.</p></div><button class="quiet-button pressable" type="button" data-open-customize>Ansicht anpassen</button></article>
-              <article class="settings-section"><div><h2>Datenexport</h2><p>Lade deine lokal gespeicherten Module, Prüfungen und Einstellungen als JSON.</p></div><button class="quiet-button pressable" type="button" data-export-data>JSON exportieren</button></article>
-              <article class="settings-section danger-section"><div><h2>Lokale Beispieldaten</h2><p>Setzt Module, Notizen und die Dashboard-Anordnung auf den Ausgangszustand zurück.</p></div><button class="delete-button pressable" type="button" data-reset-data><span class="delete-icon" aria-hidden="true">×</span><span class="delete-label">Zurücksetzen</span></button></article>
-            </div>
-          </section>
-        </main>
-
-        <footer><span>Moduly V1</span><nav aria-label="Rechtliches"><a href="#">Impressum</a><a href="#">Datenschutz</a><button type="button" data-export-data>Meine Daten</button></nav></footer>
-      </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f34">
+  <meta name="description" content="Dein Studium, in deinem Plan. Module, Prüfungen, Lernaufgaben und Fortschritt persönlich organisieren mit Moduly.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Moduly · Dein Studium, in deinem Plan</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/v1.css">
+  <script type="module" src="assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
+  <section id="welcome" class="welcome" aria-labelledby="welcome-title">
+    <div class="welcome-story">
+      <a class="brand" href="./" aria-label="Moduly Startseite"><span class="brand-mark" aria-hidden="true">M</span>moduly</a>
+      <div class="welcome-copy"><h1 id="welcome-title">Dein Studium.<br>Dein eigener Plan.</h1><p>Module abhaken. Prüfungen vorbereiten. Den nächsten Schritt kennen.</p><p class="welcome-detail">Ein ruhiger Platz für alles, was du im Studium im Blick behalten willst. Mit deinen Notizen, deinen Terminen und deinen Anpassungen.</p></div>
+      <div class="paper-plan" aria-hidden="true"><div class="paper-plan-head"><span>Ein Schritt nach dem anderen.</span><strong>01 / 03</strong></div><div><span class="paper-check">✓</span><span>Den Anfang machen</span></div><div><span class="paper-check empty"></span><span>Den Überblick behalten</span></div><div><span class="paper-check empty"></span><span>In deinem Tempo weiterkommen</span></div></div>
+      <div class="welcome-foot">Für deinen Studienalltag gemacht.</div>
     </div>
-
-    <dialog class="modal" id="module-modal" aria-labelledby="module-modal-title">
-      <form method="dialog" class="modal-card" id="module-form">
-        <div class="modal-head"><div><p class="eyebrow">Persönlicher Studienplan</p><h2 id="module-modal-title">Modul hinzufügen</h2></div><button class="icon-button" type="button" data-close-module aria-label="Dialog schließen">×</button></div>
-        <input type="hidden" id="module-id" />
-        <div class="form-grid">
-          <label class="field field-wide"><span>Modulname</span><input id="module-name" name="name" required maxlength="70" placeholder="Zum Beispiel Mathematik 2" /></label>
-          <label class="field"><span>ECTS</span><input id="module-ects" name="ects" type="number" min="1" max="30" required value="5" /></label>
-          <label class="field"><span>Semester</span><select id="module-semester" name="semester"><option value="1">Semester 1</option><option value="2">Semester 2</option><option value="3">Semester 3</option></select></label>
-          <label class="field field-wide"><span>Status</span><select id="module-status" name="status"><option value="open">Offen</option><option value="active">In Bearbeitung</option><option value="done">Bestanden</option></select></label>
-        </div>
-        <p class="form-note">Diese Änderung ist nur in deiner persönlichen Ansicht sichtbar.</p>
-        <div class="modal-actions"><button class="quiet-button pressable" type="button" data-close-module>Abbrechen</button><button class="button-primary pressable" type="submit"><span>Modul speichern</span><span class="button-arrow" aria-hidden="true">✓</span></button></div>
-      </form>
-    </dialog>
-
-    <dialog class="drawer" id="customize-modal" aria-labelledby="customize-title">
-      <form method="dialog" class="drawer-card">
-        <div class="modal-head"><div><p class="eyebrow">Persönliche Übersicht</p><h2 id="customize-title">Dashboard anpassen</h2></div><button class="icon-button" type="submit" aria-label="Dialog schließen">×</button></div>
-        <p>Blende Bereiche ein oder aus. Die Auswahl wird auf diesem Gerät gespeichert.</p>
-        <div class="toggle-list">
-          <label><span><strong>Studienfortschritt</strong><small>ECTS und Modulstatus</small></span><input type="checkbox" data-widget-toggle="progress" checked><i></i></label>
-          <label><span><strong>Nächste Prüfung</strong><small>Termin und Countdown</small></span><input type="checkbox" data-widget-toggle="nextExam" checked><i></i></label>
-          <label><span><strong>Diese Woche</strong><small>Die nächsten Termine</small></span><input type="checkbox" data-widget-toggle="schedule" checked><i></i></label>
-          <label><span><strong>Aktuelle Module</strong><small>Module in Bearbeitung</small></span><input type="checkbox" data-widget-toggle="modules" checked><i></i></label>
-          <label><span><strong>Persönliche Notiz</strong><small>Freies Notizfeld</small></span><input type="checkbox" data-widget-toggle="note" checked><i></i></label>
-        </div>
-        <button class="button-primary pressable drawer-save" type="submit"><span>Ansicht speichern</span><span class="button-arrow" aria-hidden="true">✓</span></button>
-      </form>
-    </dialog>
-
-    <dialog class="modal" id="exam-modal" aria-labelledby="exam-modal-title">
-      <form method="dialog" class="modal-card" id="exam-form">
-        <div class="modal-head"><div><p class="eyebrow">Persönlicher Kalender</p><h2 id="exam-modal-title">Prüfung eintragen</h2></div><button class="icon-button" type="button" data-close-exam aria-label="Dialog schließen">×</button></div>
-        <div class="form-grid">
-          <label class="field field-wide"><span>Prüfung</span><input id="exam-name" required maxlength="70" placeholder="Zum Beispiel Physik 1" /></label>
-          <label class="field"><span>Datum</span><input id="exam-date" type="date" required value="2027-01-27" /></label>
-          <label class="field"><span>Uhrzeit</span><input id="exam-time" type="time" required value="09:00" /></label>
-          <label class="field field-wide"><span>Ort oder Raum</span><input id="exam-location" maxlength="80" placeholder="Zum Beispiel Raum A 204" /></label>
-        </div>
-        <p class="form-note">Der Termin bleibt auf diesem Gerät und kann als Kalenderdatei exportiert werden.</p>
-        <div class="modal-actions"><button class="quiet-button pressable" type="button" data-close-exam>Abbrechen</button><button class="button-primary pressable" type="submit"><span>Prüfung speichern</span><span class="button-arrow" aria-hidden="true">✓</span></button></div>
-      </form>
-    </dialog>
-
-    <dialog class="modal" id="degree-modal" aria-labelledby="degree-title">
-      <form method="dialog" class="modal-card compact-modal">
-        <div class="modal-head"><div><p class="eyebrow">Studienprofil</p><h2 id="degree-title">Aktuelles Studium</h2></div><button class="icon-button" type="submit" aria-label="Dialog schließen">×</button></div>
-        <div class="degree-option is-selected"><span class="brand-mark small">M</span><div><strong>Internationales Wirtschaftsingenieurwesen</strong><span>Hochschule Bremen · Bachelor of Engineering</span></div><span aria-hidden="true">✓</span></div>
-        <button class="quiet-button add-degree" type="button" disabled>Weiteren Studiengang später hinzufügen</button>
-      </form>
-    </dialog>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="assets/app.js" defer></script>
-  </body>
+    <div class="welcome-account"><div id="auth-content" aria-live="polite"><h2>Moduly wird geladen …</h2><p>Die Verbindung wird geprüft.</p></div><footer class="auth-footer"><button class="text-button" data-action="legal" data-id="imprint">Impressum</button><button class="text-button" data-action="legal" data-id="privacy">Datenschutz</button></footer></div>
+  </section>
+  <div class="app-shell" id="app" hidden>
+    <aside class="sidebar" id="sidebar" aria-label="Hauptnavigation">
+      <div class="brand-row"><button class="brand" data-page="overview" aria-label="Zur Übersicht"><span class="brand-mark" aria-hidden="true">M</span>moduly</button><button class="sidebar-close icon-button" data-action="close-menu" aria-label="Menü schließen">×</button></div>
+      <div class="degree-switcher"><label class="degree-switcher__label" for="profile-switch">Aktuelles Studium</label><select id="profile-switch" aria-label="Studienprofil wählen"></select><button class="sidebar-add" data-action="profile-new">＋ Studienprofil hinzufügen</button></div>
+      <nav class="nav-list" aria-label="Bereiche">
+        <button class="nav-item is-active" data-page="overview"><span class="nav-index">01</span>Übersicht</button>
+        <button class="nav-item" data-page="study"><span class="nav-index">02</span>Studium</button>
+        <button class="nav-item" data-page="exams"><span class="nav-index">03</span>Prüfungen & Fristen</button>
+        <button class="nav-item" data-page="calendar"><span class="nav-index">04</span>Kalender</button>
+        <button class="nav-item" data-page="planning"><span class="nav-index">05</span>Lernplanung</button>
+        <button class="nav-item" data-page="export"><span class="nav-index">06</span>Export</button>
+        <button class="nav-item" data-page="settings"><span class="nav-index">07</span>Einstellungen</button>
+        <button class="nav-item" data-page="admin" id="admin-nav" hidden><span class="nav-index">08</span>Verwaltung</button>
+      </nav>
+      <div class="sidebar-foot"><button class="profile-button" data-page="settings"><span class="avatar" id="user-avatar" aria-hidden="true">M</span><span><strong id="username"></strong><small id="storage-label"></small></span></button><button class="sidebar-add" data-action="logout">Abmelden <span aria-hidden="true">↗</span></button></div>
+    </aside>
+    <div class="sidebar-scrim" data-action="close-menu"></div>
+    <div class="workspace">
+      <header class="topbar"><button class="menu-button icon-button" data-action="open-menu" aria-label="Menü öffnen" aria-controls="sidebar" aria-expanded="false"><span></span><span></span><span></span></button><div class="topbar-context"><span id="page-name">Übersicht</span><small id="profile-meta"></small></div><div class="topbar-actions"><span id="save-status" role="status"></span><button class="quiet-button pressable" data-action="customize">Ansicht anpassen</button><button class="button-primary pressable" data-action="module-new"><span>Neues Modul</span><span class="button-arrow" aria-hidden="true">＋</span></button></div></header>
+      <div class="preview-notice" id="preview-notice" hidden>Gerätevorschau: Einträge bleiben in diesem Browser. Konten und Synchronisierung stehen auf deinem Moduly-Server bereit.</div>
+      <main id="main-content" tabindex="-1"></main>
+      <footer class="site-footer"><span>moduly · Dein persönlicher Studienplan</span><div><button class="text-button" data-action="report">Problem melden</button><button class="text-button" data-action="legal" data-id="imprint">Impressum</button><button class="text-button" data-action="legal" data-id="privacy">Datenschutz</button></div></footer>
+    </div>
+  </div>
+  <dialog id="editor" class="modal" aria-labelledby="dialog-title"><div class="modal-head"><h2 id="dialog-title"></h2><button class="icon-button" data-action="close-dialog" aria-label="Dialog schließen">×</button></div><div id="dialog-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">Moduly benötigt JavaScript für deinen privaten Studienplan. Bitte im Browser aktivieren.</p></noscript>
+</body>
 </html>

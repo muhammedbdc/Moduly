@@ -1,0 +1,58 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { JSDOM } from 'jsdom';
+
+// DOM integration, not a screenshot or a browser-rendering test.
+test('device preview: create profile, modules, exam, task, customize and export', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const dom = new JSDOM(html, { url: 'https://example.org/Moduly/', pretendToBeVisual: true });
+  const { window } = dom;
+  for (const key of ['document', 'location', 'history', 'localStorage', 'FormData']) globalThis[key] = window[key];
+  globalThis.window = window;
+  globalThis.matchMedia = () => ({ matches: false, addEventListener() {} });
+  globalThis.fetch = async () => new Response('{}', { status: 404, headers: { 'Content-Type': 'application/json' } });
+  window.HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); };
+  window.HTMLDialogElement.prototype.close = function () { this.removeAttribute('open'); };
+  window.HTMLAnchorElement.prototype.click = function () {};
+  let downloaded;
+  URL.createObjectURL = blob => { downloaded = blob; return 'blob:moduly-test'; };
+  URL.revokeObjectURL = () => {};
+  const $ = selector => document.querySelector(selector);
+  const wait = async predicate => {
+    for (let i = 0; i < 100; i++) { if (predicate()) return; await new Promise(resolve => setTimeout(resolve, 10)); }
+    assert.fail('UI did not reach the expected state: ' + $('#toast').textContent + ' / ' + ($('.form-error:not([hidden])')?.textContent || ''));
+  };
+  const click = async selector => { assert.ok($(selector), 'Missing element ' + selector); $(selector).click(); await new Promise(resolve => setTimeout(resolve, 0)); };
+  const fill = (name, value) => { const input = $(`#editor [name="${name}"]`); assert.ok(input, name); input.value = value; };
+  const submit = async () => { $('#editor-form').dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true })); await wait(() => !$('#editor').open); };
+  const saved = () => JSON.parse(localStorage.getItem('moduly-preview-v1')).state;
+
+  await import('../assets/app.js');
+  await wait(() => $('[data-action="preview"]'));
+  await click('[data-action="preview"]'); await wait(() => !$('#app').hidden);
+  await click('[data-action="profile-new"]'); fill('name', 'Mein Teststudium'); fill('university', 'Selbst angelegt'); await submit();
+  assert.equal(saved().profiles[0].name, 'Mein Teststudium');
+  await click('[data-action="module-new"]'); fill('name', '<script>Kein HTML</script>'); fill('status', 'passed'); fill('grade', '1.7'); fill('attempts', '1'); await submit();
+  assert.equal(saved().modules.length, 1); assert.equal(saved().modules[0].grade, 1.7);
+  assert.ok($('#main-content').textContent.includes('<script>Kein HTML</script>'));
+  assert.equal($('#main-content script'), null);
+  assert.ok($('#main-content').textContent.includes('5 von 180 ECTS'));
+
+  await click('[data-page="exams"]'); await click('#main-content [data-action="event-new"]'); fill('title', 'Meine Prüfung'); fill('start', '2027-06-15T10:00'); fill('timezone', 'Europe/Berlin'); await submit();
+  assert.equal(saved().events[0].title, 'Meine Prüfung');
+  await click('[data-action="event-export"]'); await wait(() => downloaded); assert.match(await downloaded.text(), /DTSTART:20270615T080000Z/);
+  await click('[data-page="calendar"]'); assert.equal(document.querySelectorAll('.weekday').length, 7); await click('[data-action="month"][data-id="1"]');
+
+  await click('[data-page="planning"]'); await click('#main-content [data-action="task-new"]'); fill('title', 'Ein Kapitel lesen'); fill('minutes', '45'); await submit();
+  await click('[data-task-toggle]'); await wait(() => saved().tasks[0].done); assert.ok($('#main-content').textContent.includes('1 von 1 Aufgaben erledigt'));
+  await click('[data-action="customize"]'); const notes = $('[name="widgets"][value="note"]'); notes.checked = false; await submit();
+  assert.ok(!saved().settings.widgets.includes('note'));
+  await click('[data-page="settings"]'); await click('[data-action="theme"]'); await wait(() => document.documentElement.dataset.theme === 'dark');
+  await click('[data-page="export"]'); downloaded = null; await click('[data-action="json-export"]'); await wait(() => downloaded); const archive = JSON.parse(await downloaded.text());
+  assert.equal(archive.format, 'moduly'); assert.equal(archive.state.modules.length, 1);
+  await click('[data-page="study"]'); await click('[data-action="module-delete"]'); $('[name="confirm"]').checked = true; await submit();
+  assert.equal(saved().modules.length, 0); assert.equal(saved().events.length, 1);
+  await click('[data-action="legal"][data-id="privacy"]'); assert.ok($('#dialog-content').textContent.includes('Gerätevorschau')); await click('[data-action="close-dialog"]');
+  dom.window.close();
+});

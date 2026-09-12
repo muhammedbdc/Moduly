@@ -1,0 +1,13 @@
+{
+  "name": "moduly",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Private study planner. No Node runtime or frontend build required in production.",
+  "engines": { "node": ">=24.15.0" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check assets/app.js && node --check assets/api.js && node --check assets/domain.js"
+  },
+  "devDependencies": { "jsdom": "30.0.1" }
+}

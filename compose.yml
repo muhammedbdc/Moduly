@@ -1,0 +1,67 @@
+name: moduly
+services:
+  web:
+    build: .
+    image: moduly:local
+    restart: unless-stopped
+    environment: &app-environment
+      MODULY_ENV: production
+      MODULY_ORIGIN: https://${MODULY_DOMAIN:?Domain in .env eintragen}
+      MODULY_TRUST_PROXY: "true"
+      MODULY_REGISTRATION: ${MODULY_REGISTRATION:-true}
+      MODULY_INVITE_CODE: ${MODULY_INVITE_CODE:-}
+      MODULY_OPERATOR_NAME: ${MODULY_OPERATOR_NAME:?Betreibername in .env eintragen}
+      MODULY_OPERATOR_ADDRESS: ${MODULY_OPERATOR_ADDRESS:?Anschrift in .env eintragen}
+      MODULY_OPERATOR_EMAIL: ${MODULY_OPERATOR_EMAIL:?Kontaktadresse in .env eintragen}
+      MODULY_HOST_DESCRIPTION: ${MODULY_HOST_DESCRIPTION:?Hostingangaben in .env eintragen}
+      MODULY_PRIVACY_EXTRA: ${MODULY_PRIVACY_EXTRA:-}
+    volumes:
+      - data:/data
+      - journal:/journal
+    expose: ["8000"]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=128m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    logging: &bounded-logs
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+  caddy:
+    image: caddy:2.10.2-alpine
+    restart: unless-stopped
+    depends_on:
+      web: { condition: service_healthy }
+    environment:
+      MODULY_DOMAIN: ${MODULY_DOMAIN:?Domain fehlt}
+      MODULY_OPERATOR_EMAIL: ${MODULY_OPERATOR_EMAIL:?Kontaktadresse fehlt}
+    ports: ["80:80", "443:443", "443:443/udp"]
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    logging: *bounded-logs
+  backup:
+    image: moduly:local
+    restart: unless-stopped
+    depends_on:
+      web: { condition: service_healthy }
+    environment:
+      <<: *app-environment
+      MODULY_BACKUP_KEY: ${MODULY_BACKUP_KEY:?Backupschluessel erzeugen}
+    volumes:
+      - data:/data
+      - journal:/journal
+      - backups:/backups
+    command: ["python", "-m", "server.manage", "backup-loop"]
+    healthcheck: { disable: true }
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=256m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    logging: *bounded-logs
+volumes:
+  data:
+  journal:
+  backups:
+  caddy-data:
+  caddy-config:

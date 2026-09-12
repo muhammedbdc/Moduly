@@ -1,0 +1,10 @@
+{
+    email {$MODULY_OPERATOR_EMAIL}
+}
+
+{$MODULY_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy web:8000 {
+        header_up X-Forwarded-For {remote_host}
+    }
+}
