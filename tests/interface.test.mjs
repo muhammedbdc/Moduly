@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 
 // DOM integration, not a screenshot or a browser-rendering test.
-test('device preview: create profile, modules, exam, task, customize and export', async () => {
+test('local app: account, profile, modules, exam, task, admin and backup', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   const catalog = await readFile(new URL('../catalog/v1.json', import.meta.url), 'utf8');
   const dom = new JSDOM(html, { url: 'https://example.org/Moduly/', pretendToBeVisual: true });
@@ -29,13 +29,26 @@ test('device preview: create profile, modules, exam, task, customize and export'
   const click = async selector => { assert.ok($(selector), 'Missing element ' + selector); $(selector).click(); await new Promise(resolve => setTimeout(resolve, 0)); };
   const fill = (name, value) => { const input = $(`#editor [name="${name}"]`); assert.ok(input, name); input.value = value; };
   const submit = async () => { $('#editor-form').dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true })); await wait(() => !$('#editor').open); };
-  const saved = () => JSON.parse(localStorage.getItem('moduly-preview-v1')).state;
+  const saved = () => {
+    const db = JSON.parse(localStorage.getItem('moduly-local-v1'));
+    return db.users.find(user => user.id === localStorage.getItem('moduly-local-session-v1')).state;
+  };
 
   await import('../assets/app.js');
-  await wait(() => $('[data-action="preview"]'));
+  await wait(() => $('#auth-form'));
   assert.ok($('.login-button')); assert.ok($('.create-button')); assert.ok($('.reveal-button'));
-  await click('[data-action="preview"]'); await wait(() => !$('#app').hidden);
+  await click('[data-action="auth-mode"][data-id="register"]');
+  const testPassword = `Test-only-${crypto.randomUUID()}!`;
+  $('#auth-form [name="username"]').value = 'owner_test';
+  $('#auth-form [name="password"]').value = testPassword;
+  $('#auth-form [name="repeat"]').value = testPassword;
+  $('#auth-form').dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
+  await wait(() => !$('#app').hidden && $('#editor').open);
+  assert.match($('.recovery-code').textContent, /^MODULY-/);
+  $('[name="saved"]').checked = true; await submit();
   assert.ok($('.logout-button'));
+  assert.equal($('#admin-nav').hidden, false);
+  assert.ok($('#preview-notice').textContent.includes('Nur lokal gespeichert'));
   assert.equal(document.querySelectorAll('#university-catalog option').length, 3);
   await click('[data-action="templates"]'); await wait(() => $('#editor').open && $('#dialog-content').textContent.includes('Internationaler Studiengang Wirtschaftsingenieurwesen'));
   assert.ok($('#dialog-content').textContent.includes('Jade Hochschule'));
@@ -68,9 +81,12 @@ test('device preview: create profile, modules, exam, task, customize and export'
   await click('[data-page="settings"]'); await click('[data-action="theme"]'); await wait(() => document.documentElement.dataset.theme === 'dark');
   await click('[data-page="export"]'); downloaded = null; await click('[data-action="json-export"]'); await wait(() => downloaded); const archive = JSON.parse(await downloaded.text());
   assert.equal(archive.format, 'moduly'); assert.equal(archive.state.modules.length, 1);
+  assert.ok(JSON.parse(localStorage.getItem('moduly-local-v1')).users[0].lastBackupAt > 0);
+  await click('[data-page="admin"]'); await wait(() => $('#main-content').textContent.includes('Lokaler Adminbereich'));
+  assert.ok($('#main-content').textContent.includes('owner_test'));
   await click('[data-page="study"]'); await click('[data-action="module-delete"]'); assert.ok($('#editor-form .delete-action')); $('[name="confirm"]').checked = true; await submit();
   assert.equal(saved().modules.length, 0); assert.equal(saved().events.length, 1);
-  await click('[data-action="legal"][data-id="privacy"]'); assert.ok($('#dialog-content').textContent.includes('Gerätevorschau')); await click('[data-action="close-dialog"]');
+  await click('[data-action="legal"][data-id="privacy"]'); assert.ok($('#dialog-content').textContent.includes('lokalen Speicher')); await click('[data-action="close-dialog"]');
   assert.equal($('#dialog-content').textContent, '');
   await click('[data-action="logout"]');
   assert.equal($('#app').hidden, true); assert.equal($('#main-content').textContent, ''); assert.equal($('#username').textContent, '');

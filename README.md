@@ -1,8 +1,8 @@
 # Moduly V1
 
-Dein Studium, in deinem Plan. Ein persönlicher Studienplaner für eine kleine Nutzergruppe, mit eigener Datenbank und ohne Analyse- oder Werbedienste.
+Dein Studium, in deinem Plan. Ein persönlicher Studienplaner für eine kleine Nutzergruppe, ohne Analyse- oder Werbedienste.
 
-**Die vollständige Anwendung wird auf einem eigenen Server betrieben.** Die [GitHub-Pages-Seite](https://muhammedbdc.github.io/Moduly/) ist eine ausdrücklich gekennzeichnete Gerätevorschau. Sie besitzt keine Serverkonten und synchronisiert keine Daten.
+**Die [GitHub-Pages-Seite](https://muhammedbdc.github.io/Moduly/) ist die vollständig nutzbare lokale V1.** Konten und Studienpläne werden getrennt im lokalen Speicher des jeweiligen Browsers abgelegt. Es gibt keine Synchronisierung zwischen Browsern oder Geräten. Werden Browserdaten gelöscht, gehen die Daten verloren; deshalb erinnert die Anwendung dauerhaft an JSON-Sicherungen.
 
 ## Was V1 enthält
 
@@ -15,18 +15,24 @@ Dein Studium, in deinem Plan. Ein persönlicher Studienplaner für eine kleine N
 - Lernaufgaben mit Frist, Aufwand, Notizen und Abschlussstatus.
 - Anpassbare Dashboard-Reihenfolge, ausblendbare Bereiche, kompakte Darstellung, Hell-/Dunkelmodus und abschaltbare Animationen. Anmelden, Erstellen, Abmelden und Löschen besitzen eigene Tastatur-, Maus- und Touch-Reaktionen.
 - JSON-Vollsicherung und Import mit Vorschau; gefilterte PDF-, CSV-, Markdown-, TXT- und Kalenderexporte.
-- Versionskonfliktschutz bei mehreren Geräten und Wiederherstellung von bis zu 20 früheren Planständen innerhalb von 30 Tagen.
-- Kontoname/Passwort ändern, Wiederherstellungscode erneuern, andere Sitzungen abmelden und Konto mit Passwortbestätigung löschen.
-- Private Fehlermeldungen und eine kleine Verwaltungsansicht, die keine privaten Studienpläne ausliest.
+- Versionskonfliktschutz bei mehreren Tabs und Wiederherstellung von bis zu 20 früheren Planständen innerhalb von 30 Tagen.
+- Lokale, innerhalb eines Browsers eindeutige Benutzernamen, gehashte Passwörter, Wiederherstellungscode und Konto mit Passwortbestätigung löschen. Der Code hilft nicht nach dem Löschen der Browserdaten; dafür ist ein JSON-Backup nötig.
+- Lokale Fehlermeldungen und ein Adminbereich mit Nutzerrollen, Sperren, Löschung, Meldungsbearbeitung, Backup-Status und Änderungsprotokoll. Er verwaltet nur Konten desselben Browsers.
 - Ein manuell geprüfter Hochschulkatalog für Hochschule Bremen, Jade Hochschule am Campus Oldenburg und Universität Bremen. Enthalten ist die vollständige persönliche Vorlage für ISWI B.Eng. nach der HSB-BPO vom 22. April 2025 mit 32 Modulen und 210 ECTS.
 - Zusätzliche versionierte Vorlagen können vom Betreiber über die Konsole eingespielt werden. Eine persönliche Kopie wird nie durch eine neue Vorlagenversion überschrieben.
-- Docker-Betrieb mit Gunicorn, SQLite und Caddy; verschlüsselte tägliche Backups mit Prüfung und Löschjournal beim Restore.
+- Zusätzlich bleibt ein optionaler Docker-Betrieb mit Gunicorn, SQLite und Caddy für eine spätere zentrale Serverinstanz vorbereitet.
 
 Offizielle Angaben werden nur mit verlinkter Primärquelle aufgenommen. Unbekannte Prüfungsdauern, Hilfsmittel, individuelle Zulassungsvoraussetzungen und konkrete Wahlpflichtentscheidungen bleiben offen. Die HSB-Vorlage ist eine bearbeitbare persönliche Kopie und keine amtliche Leistungs- oder Zulassungsauskunft. Für Jade Hochschule und Universität Bremen ist noch kein konkreter Studiengang hinterlegt, weil bisher keiner benannt wurde. Details und Quellen stehen im [Studienkatalog](docs/STUDY-CATALOG.md).
 
 Große Community-Funktionen, Rankings, Discord, KI-Importe, Werbung und öffentliche Profile gehören nicht zu V1.
 
-## Auf ZAP-Hosting starten
+## GitHub Pages
+
+Für die aktuelle Nutzung muss nichts gekauft werden. Nach jedem Push auf `main` prüft GitHub Actions die Browser-App und veröffentlicht das freigegebene statische Paket. Persönliche Daten werden nie in das Repository oder das Pages-Artefakt geschrieben.
+
+Wichtige Grenze: Ein Konto auf Handy A ist auf Laptop B nicht vorhanden. Auch der lokale Adminbereich kann nur Konten verwalten, die im selben Browser angelegt wurden. Jeder Nutzer sollte nach wichtigen Änderungen unter **Export → JSON-Backup** eine Sicherung herunterladen.
+
+## Optional: eigener Server
 
 Die vorbereitete Installation benötigt einen **Linux-VPS oder Root-/Dedicated-Server mit Docker Compose und SSH-Zugang**. Bei einem Webspace-Tarif muss zuerst geprüft werden, ob dauerhafte Python-Prozesse bzw. Docker erlaubt sind. Die Domain allein führt die Anwendung nicht aus.
 
@@ -66,7 +72,7 @@ npm test
 
 Node 24.15+ wird ausschließlich für Entwicklungstests benötigt. Die Tests prüfen Berechtigungen, Kontotrennung, Recovery, CSRF, Exporte, Berechnungen, Kalender-Zeitumstellungen, Backup/Restore und die Bedienabläufe im DOM. DOM-Tests ersetzen keine visuelle Prüfung in Safari oder Chrome.
 
-GitHub Actions prüft diese Abläufe und den Start des Produktionscontainers, bevor eine neue Gerätevorschau veröffentlicht wird. In das Pages-Artefakt gelangen ausschließlich die erlaubten HTML-/CSS-/JavaScript-/SVG-Dateien.
+GitHub Actions prüft Berechnungen, lokale Kontotrennung, Adminrechte, Backups und die Bedienabläufe, bevor die GitHub-Pages-App veröffentlicht wird. In das Pages-Artefakt gelangen ausschließlich erlaubte statische Dateien, niemals Nutzerdaten.
 
 ## Aufbau
 
@@ -74,7 +80,7 @@ GitHub Actions prüft diese Abläufe und den Start des Produktionscontainers, be
 | --- | --- |
 | `index.html` | Zugänglicher Rahmen und Anmeldung |
 | `assets/app.js` | Seiten, Dialoge und Nutzerabläufe |
-| `assets/api.js` | Servertransport und explizite Gerätevorschau |
+| `assets/api.js` | Lokale Konten/Datenbank sowie optionaler Servertransport |
 | `assets/domain.js` | Berechnung, Kalender und Importprüfung |
 | `assets/styles.css`, `assets/v1.css` | Gestaltung, Layout und reduzierte Bewegung |
 | `catalog/v1.json` | Geprüfte Hochschulliste und mit Quellen belegte Studienvorlagen |
@@ -90,6 +96,6 @@ GitHub Actions prüft diese Abläufe und den Start des Produktionscontainers, be
 
 Weitere Details: [Architektur](docs/ARCHITECTURE.md), [Studienkatalog](docs/STUDY-CATALOG.md), [Betrieb und Datenschutz](docs/OPERATIONS.md), [Designquellen](ATTRIBUTION.md).
 
-## Vor dem echten Betrieb
+## Vor einer öffentlichen oder geschäftlichen Nutzung
 
 Der Code liefert Funktionen und technische Schutzmaßnahmen. Die tatsächlichen Anbieterangaben, der gebuchte Hostingvertrag, Standort/AV-Vertrag, externe Backups und die konkreten Datenschutzhinweise müssen zur betriebenen Instanz passen. Es wird keine pauschale Rechtskonformität oder ungeprüfte Produktionsfreigabe behauptet. Die verbleibenden konkreten Schritte stehen in der Hostinganleitung.

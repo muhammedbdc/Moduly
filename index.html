@@ -8,9 +8,9 @@
   <meta name="robots" content="noindex,nofollow">
   <title>Moduly · Dein Studium, in deinem Plan</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/v1.css">
-  <script type="module" src="assets/app.js"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=1.1.0">
+  <link rel="stylesheet" href="assets/v1.css?v=1.1.0">
+  <script type="module" src="assets/app.js?v=1.1.0"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
@@ -42,7 +42,10 @@
     <div class="sidebar-scrim" data-action="close-menu"></div>
     <div class="workspace">
       <header class="topbar"><button class="menu-button icon-button" data-action="open-menu" aria-label="Menü öffnen" aria-controls="sidebar" aria-expanded="false"><span></span><span></span><span></span></button><div class="topbar-context"><span id="page-name">Übersicht</span><small id="profile-meta"></small></div><div class="topbar-actions"><span id="save-status" role="status"></span><button class="quiet-button pressable" data-action="customize">Ansicht anpassen</button><button class="create-button pressable" data-action="module-new"><span class="action-label">Neues Modul</span><span class="button-arrow" aria-hidden="true">＋</span><span class="spark spark-1" aria-hidden="true"></span><span class="spark spark-2" aria-hidden="true"></span><span class="spark spark-3" aria-hidden="true"></span><span class="spark spark-4" aria-hidden="true"></span><span class="spark spark-5" aria-hidden="true"></span><span class="spark spark-6" aria-hidden="true"></span></button></div></header>
-      <div class="preview-notice" id="preview-notice" hidden>Gerätevorschau: Einträge bleiben in diesem Browser. Konten und Synchronisierung stehen auf deinem Moduly-Server bereit.</div>
+      <div class="preview-notice local-storage-notice" id="preview-notice" hidden role="note">
+        <span><strong>Nur lokal gespeichert.</strong> Werden Browserdaten gelöscht oder wechselst du Browser oder Gerät, sind deine Moduly-Daten dort nicht vorhanden. Erstelle regelmäßig ein JSON-Backup.</span>
+        <button type="button" class="notice-backup-button pressable" data-action="json-export">Backup herunterladen</button>
+      </div>
       <main id="main-content" tabindex="-1"></main>
       <footer class="site-footer"><span>moduly · Dein persönlicher Studienplan</span><div><button class="text-button" data-action="report">Problem melden</button><button class="text-button" data-action="legal" data-id="imprint">Impressum</button><button class="text-button" data-action="legal" data-id="privacy">Datenschutz</button></div></footer>
     </div>

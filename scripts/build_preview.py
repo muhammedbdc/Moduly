@@ -17,4 +17,4 @@ for file in files:
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(root / file, destination)
 (target / '.nojekyll').touch()
-print('Gerätevorschau gebaut. Keine Serverdateien, Konfigurationen oder Datenbanken enthalten.')
+print('Lokale GitHub-Pages-App gebaut. Keine Serverdateien, Konfigurationen oder Nutzerdaten enthalten.')
