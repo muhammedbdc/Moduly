@@ -48,7 +48,11 @@ function openDialog(title, content, onSave = null, submitText = 'Speichern', gua
 }
 function closeDialog() {
   if (busy || closeGuard) return;
-  $('#editor').close(); dialogSave = null; focusBeforeDialog?.focus();
+  $('#editor').close(); clearDialog(); focusBeforeDialog?.focus();
+}
+function clearDialog() {
+  if ($('#editor').open) return;
+  $('#dialog-content').replaceChildren(); dialogSave = null; currentComponents = [];
 }
 function confirmation(title, copy, callback, label = 'Bestätigen') {
   openDialog(title, `<p class="span-2">${escape(copy)}</p>${check('Ich habe den Hinweis gelesen.', 'confirm')}`, async form => {
@@ -64,6 +68,9 @@ function recoveryDialog(code) {
 }
 function showAuth(mode = 'login') {
   authMode = mode; $('#welcome').hidden = false; $('#app').hidden = true;
+  $('#main-content').replaceChildren(); $('#profile-switch').replaceChildren();
+  $('#username').textContent = ''; $('#profile-meta').textContent = '';
+  closeMenu();
   if (store.mode === 'preview') {
     $('#auth-content').innerHTML = `<h2>Schau dich um.</h2><p>Probiere den Studienplan direkt auf deinem Gerät aus. In dieser Vorschau bleiben deine Einträge in diesem Browser.</p><p>Für persönliche Konten auf mehreren Geräten wird Moduly auf deinem eigenen Server betrieben.</p><div class="auth-buttons">${primary('Vorschau öffnen', 'preview')}${button('Mit Beispielen starten', 'demo')}${button('Vorschau zurücksetzen', 'reset-preview', '', 'text-button')}</div><p class="small muted">Die Beispieldaten gehören zu keiner realen Prüfungsordnung.</p>`;
     return;
@@ -425,6 +432,7 @@ document.addEventListener('input', event => {
   }
 });
 $('#editor').addEventListener('cancel', event => { if (closeGuard || busy || submitting || actionLock) event.preventDefault(); });
+$('#editor').addEventListener('close', clearDialog);
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && document.body.classList.contains('sidebar-open')) { closeMenu(); $('[data-action="open-menu"]').focus(); } });
 window.addEventListener('hashchange', () => { if (!$('#app').hidden && Object.hasOwn(titles, location.hash.slice(1))) navigate(location.hash.slice(1)); });
 window.addEventListener('beforeunload', event => { const dirtyNote = $('#quick-note') && $('#quick-note').value !== state.settings.note; if (busy || submitting || actionLock || closeGuard || dirtyNote) { event.preventDefault(); event.returnValue = ''; } });

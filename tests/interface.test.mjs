@@ -54,5 +54,8 @@ test('device preview: create profile, modules, exam, task, customize and export'
   await click('[data-page="study"]'); await click('[data-action="module-delete"]'); $('[name="confirm"]').checked = true; await submit();
   assert.equal(saved().modules.length, 0); assert.equal(saved().events.length, 1);
   await click('[data-action="legal"][data-id="privacy"]'); assert.ok($('#dialog-content').textContent.includes('Gerätevorschau')); await click('[data-action="close-dialog"]');
+  assert.equal($('#dialog-content').textContent, '');
+  await click('[data-action="logout"]');
+  assert.equal($('#app').hidden, true); assert.equal($('#main-content').textContent, ''); assert.equal($('#username').textContent, '');
   dom.window.close();
 });
