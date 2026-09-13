@@ -57,7 +57,8 @@ export function calendar(events, modules) {
     const module = modules.find(m => m.id === event.moduleId);
     lines.push('BEGIN:VEVENT', `UID:${event.id}@moduly`, `DTSTAMP:${stamp(Date.now())}`, `DTSTART:${stamp(start)}`, `DTEND:${stamp(start + event.duration * 60000)}`,
       `SUMMARY:${escape(event.title)}`, `LOCATION:${escape(event.location)}`, `DESCRIPTION:${escape([module?.name, event.notes, 'Persönlicher Termin. Bei Änderungen die Kalenderkopie aktualisieren.'].filter(Boolean).join('\n'))}`);
-    for (const alarm of ['-P7D', '-P1D']) lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escape(event.title)}`, `TRIGGER:${alarm}`, 'END:VALARM');
+    const triggerByMinutes = { 10080: '-P7D', 1440: '-P1D', 120: '-PT2H' };
+    for (const minutes of event.reminders ?? [10080, 1440]) lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escape(event.title)}`, `TRIGGER:${triggerByMinutes[minutes]}`, 'END:VALARM');
     lines.push('END:VEVENT');
   }
   lines.push('END:VCALENDAR');
@@ -118,6 +119,8 @@ export function validateClient(input) {
     str(e.title, 150, true); str(e.location, 300); str(e.notes, 4000); str(e.timezone, 60, true);
     if (!Object.hasOwn(KINDS, e.kind) || !/^(20\d\d|2100)-\d\d-\d\dT\d\d:\d\d$/.test(e.start) || !Number.isFinite(eventInstant(e))) fail('Ungültiges Datum oder Zeitumstellung.');
     num(e.duration, 1, 1440, true);
+    e.reminders ??= [10080, 1440];
+    if (!Array.isArray(e.reminders) || e.reminders.length > 3 || new Set(e.reminders).size !== e.reminders.length || e.reminders.some(minutes => ![10080, 1440, 120].includes(minutes))) fail('Ungültige Kalendererinnerungen.');
     if (e.moduleId && !data.modules.some(m => m.id === e.moduleId && m.profileId === e.profileId)) fail('Das verknüpfte Modul fehlt.');
   }
   for (const t of data.tasks) { str(t.title, 300, true); str(t.notes, 4000); str(t.due, 10); if (t.due && (!/^\d{4}-\d{2}-\d{2}$/.test(t.due) || Number.isNaN(Date.parse(t.due)) || new Date(t.due).toISOString().slice(0, 10) !== t.due)) fail('Ungültiges Aufgabendatum.'); num(t.minutes, 0, 10000, true); }
@@ -132,7 +135,7 @@ export function demoState() {
   data.profiles.push({ id: profileId, name: 'Mein Beispielstudium', university: 'Frei angelegtes Beispiel', degree: 'Bachelor', po: '', targetEcts: 180, semesters: 6, currentSemester: 2, thesisEcts: 0, archived: false, source: '' });
   ['Mathematik', 'Wissenschaftliches Arbeiten', 'Grundlagen der Informatik', 'Projektarbeit'].forEach((name, i) => data.modules.push({ id: id(), profileId, name, code: '', ects: i === 3 ? 10 : 5, semester: i < 2 ? 1 : 2, status: i < 2 ? 'passed' : 'active', grade: i < 2 ? (i ? 1.7 : 2.3) : null, attempts: i < 2 ? 1 : 0, examType: 'Klausur', duration: 90, materials: '', notes: '', source: '', sourceDate: '', prerequisites: [], components: [], thesisRequired: false, edited: true }));
   const next = new Date(); next.setDate(next.getDate() + 9); next.setHours(9, 0, 0, 0);
-  data.events.push({ id: id(), profileId, moduleId: data.modules[2].id, title: 'Informatik: Beispielprüfung', start: localInput(next), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/Berlin', duration: 90, kind: 'exam', location: 'Beispielraum', notes: '' });
+  data.events.push({ id: id(), profileId, moduleId: data.modules[2].id, title: 'Informatik: Beispielprüfung', start: localInput(next), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/Berlin', duration: 90, kind: 'exam', location: 'Beispielraum', notes: '', reminders: [10080, 1440] });
   data.tasks.push({ id: id(), profileId, title: 'Die ersten Lernkarten erstellen', due: dayKey(next), done: false, minutes: 45, notes: '' });
   data.settings.activeProfile = profileId;
   return data;

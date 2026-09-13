@@ -1,14 +1,29 @@
 import { emptyState, validateClient } from './domain.js';
 export class ApiError extends Error { constructor(message, status) { super(message); this.status = status; } }
+function hydrateTemplate(input) {
+  const base = emptyState(), data = structuredClone(input);
+  data.profiles = (data.profiles || []).map(profile => ({ university: '', degree: '', po: '', targetEcts: 210, semesters: 7,
+    currentSemester: 1, archived: false, thesisEcts: 0, source: '', ...profile }));
+  data.modules = (data.modules || []).map(module => ({ code: '', ects: 5, semester: 1, status: 'open', grade: null,
+    attempts: 0, examType: '', duration: 0, materials: '', notes: '', source: '', sourceDate: '', prerequisites: [],
+    thesisRequired: false, components: [], edited: true, ...module,
+    components: (module.components || []).map(component => ({ weight: 0, grade: null, required: false, passed: false, ...component })) }));
+  data.events ||= [];
+  data.tasks ||= [];
+  data.settings = { ...base.settings, ...(data.settings || {}) };
+  return validateClient(data);
+}
 export class Store {
   constructor() { this.mode = null; this.csrf = ''; this.user = null; this.revision = 0; this.meta = {}; }
   async request(path, method = 'GET', data) {
     let response;
-    try { response = await fetch(new URL(`api/${path}`, document.baseURI), { method, credentials: 'same-origin', cache: 'no-store',
+    const previewCatalog = this.mode === 'preview' && path === 'templates' && method === 'GET';
+    try { response = await fetch(new URL(previewCatalog ? 'catalog/v1.json' : `api/${path}`, document.baseURI), { method, credentials: 'same-origin', cache: 'no-store',
       headers: { Accept: 'application/json', ...(data !== undefined ? { 'Content-Type': 'application/json' } : {}), ...(this.csrf ? { 'X-CSRF-Token': this.csrf } : {}) }, ...(data !== undefined ? { body: JSON.stringify(data) } : {}) }); }
     catch { throw new ApiError('Der Server ist nicht erreichbar. Deine Eingabe bleibt geöffnet; bitte Verbindung prüfen.', 0); }
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new ApiError(result.error || `Anfrage fehlgeschlagen (${response.status}).`, response.status);
+    if (previewCatalog) result.templates = (result.templates || []).map(template => ({ ...template, data: hydrateTemplate(template.data) }));
     return result;
   }
   async connect() {

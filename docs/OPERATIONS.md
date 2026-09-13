@@ -28,7 +28,9 @@ Die Runtime führt keine HTTP-Zugriffslogs mit IP-Adressen oder Anfrageinhalten.
 
 ## Vorlagen veröffentlichen
 
-Eine Vorlage ist eine JSON-Studienstruktur entsprechend `server/model.py`, mit genau einem Profil, offenen Modulen, Quellenlinks und ohne private Noten, Versuche, Notizen, Aufgaben oder Termine. Kein automatischer Import fremder Webseiten.
+Der mit der Version ausgelieferte, manuell geprüfte Katalog liegt in `catalog/v1.json`. Änderungen daran gehören in einen geprüften Release und müssen Quellenstand, Vorlagenversion sowie Tests für Modulzahl und ECTS-Summe aktualisieren. Der aktuelle Umfang steht in [STUDY-CATALOG.md](STUDY-CATALOG.md).
+
+Zusätzliche Betreiber-Vorlagen sind JSON-Studienstrukturen entsprechend `server/model.py`, mit genau einem Profil, offenen Modulen, Quellenlinks und ohne private Noten, Versuche, Notizen, Aufgaben oder Termine. Es gibt keinen automatischen Import fremder Webseiten.
 
 1. Aktuelle Prüfungsordnung und Modulhandbuch persönlich prüfen.
 2. Profil, PO-Version, Module, ECTS, Prüfungsumfang und Quellenlinks erfassen. Unbekanntes offenlassen.

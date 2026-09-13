@@ -15,6 +15,7 @@ from flask import Flask, Response, g, jsonify, request, send_from_directory
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+from .catalog import load_catalog
 from .model import Invalid, empty_state, text, validate
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -65,6 +66,7 @@ def create_app(test_config=None):
     app = Flask(__name__, static_folder=None)
     data_dir = Path(os.environ.get('MODULY_DATA_DIR', ROOT / 'data'))
     app.config.update(DATA_DIR=data_dir, DATABASE=data_dir / 'moduly.sqlite3',
+        CATALOG=ROOT / 'catalog' / 'v1.json',
         JOURNAL=Path(os.environ.get('MODULY_JOURNAL', data_dir / 'deletions.jsonl')),
         PRODUCTION=os.environ.get('MODULY_ENV') == 'production',
         ORIGIN=os.environ.get('MODULY_ORIGIN', 'http://localhost:8000').rstrip('/'),
@@ -78,6 +80,7 @@ def create_app(test_config=None):
             'privacyExtra': os.environ.get('MODULY_PRIVACY_EXTRA', '')})
     if test_config:
         app.config.update(test_config)
+    catalog = load_catalog(Path(app.config['CATALOG']))
     app.config['DATA_DIR'] = Path(app.config['DATA_DIR'])
     app.config['DATA_DIR'].mkdir(parents=True, exist_ok=True, mode=0o700)
     journal = Path(app.config['JOURNAL'])
@@ -436,8 +439,15 @@ def create_app(test_config=None):
     @app.get('/api/templates')
     @auth
     def templates():
-        return jsonify(templates=[{'id': r['id'], 'version': r['version'], 'updated_at': r['updated_at'], 'data': json.loads(r['data'])}
-            for r in db().execute('SELECT * FROM templates ORDER BY updated_at DESC')])
+        published = {template['id']: template for template in catalog['templates']}
+        for row in db().execute('SELECT * FROM templates ORDER BY updated_at DESC'):
+            data = json.loads(row['data'])
+            source = data['profiles'][0].get('source', '') if data.get('profiles') else ''
+            published[row['id']] = {'id': row['id'], 'version': row['version'], 'updated_at': row['updated_at'],
+                'checkedAt': '', 'verification': 'Vom Betreiber über die Moduly-Konsole veröffentlicht.',
+                'notice': '', 'sources': [{'label': 'Hinterlegte Profilquelle', 'url': source}] if source else [], 'data': data}
+        return jsonify(catalogVersion=catalog['catalogVersion'], checkedAt=catalog['checkedAt'],
+            universities=catalog['universities'], templates=sorted(published.values(), key=lambda item: item['updated_at'], reverse=True))
 
     @app.get('/api/admin')
     @admin
@@ -473,6 +483,11 @@ def create_app(test_config=None):
     @app.get('/')
     def index():
         return send_from_directory(ROOT, 'index.html')
+
+    @app.get('/catalog/v1.json')
+    def public_catalog():
+        # Only manually checked public study data; no account or operator data.
+        return jsonify(catalog)
 
     @app.get('/assets/<path:name>')
     def assets(name):

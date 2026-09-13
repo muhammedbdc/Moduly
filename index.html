@@ -37,17 +37,22 @@
         <button class="nav-item" data-page="settings"><span class="nav-index">07</span>Einstellungen</button>
         <button class="nav-item" data-page="admin" id="admin-nav" hidden><span class="nav-index">08</span>Verwaltung</button>
       </nav>
-      <div class="sidebar-foot"><button class="profile-button" data-page="settings"><span class="avatar" id="user-avatar" aria-hidden="true">M</span><span><strong id="username"></strong><small id="storage-label"></small></span></button><button class="sidebar-add" data-action="logout">Abmelden <span aria-hidden="true">↗</span></button></div>
+      <div class="sidebar-foot"><button class="profile-button" data-page="settings"><span class="avatar" id="user-avatar" aria-hidden="true">M</span><span><strong id="username"></strong><small id="storage-label"></small></span></button><button type="button" class="logout-button" data-action="logout" aria-label="Abmelden"><span class="logout-sign" aria-hidden="true">↗</span><span class="logout-copy">Abmelden</span></button></div>
     </aside>
     <div class="sidebar-scrim" data-action="close-menu"></div>
     <div class="workspace">
-      <header class="topbar"><button class="menu-button icon-button" data-action="open-menu" aria-label="Menü öffnen" aria-controls="sidebar" aria-expanded="false"><span></span><span></span><span></span></button><div class="topbar-context"><span id="page-name">Übersicht</span><small id="profile-meta"></small></div><div class="topbar-actions"><span id="save-status" role="status"></span><button class="quiet-button pressable" data-action="customize">Ansicht anpassen</button><button class="button-primary pressable" data-action="module-new"><span>Neues Modul</span><span class="button-arrow" aria-hidden="true">＋</span></button></div></header>
+      <header class="topbar"><button class="menu-button icon-button" data-action="open-menu" aria-label="Menü öffnen" aria-controls="sidebar" aria-expanded="false"><span></span><span></span><span></span></button><div class="topbar-context"><span id="page-name">Übersicht</span><small id="profile-meta"></small></div><div class="topbar-actions"><span id="save-status" role="status"></span><button class="quiet-button pressable" data-action="customize">Ansicht anpassen</button><button class="create-button pressable" data-action="module-new"><span class="action-label">Neues Modul</span><span class="button-arrow" aria-hidden="true">＋</span><span class="spark spark-1" aria-hidden="true"></span><span class="spark spark-2" aria-hidden="true"></span><span class="spark spark-3" aria-hidden="true"></span><span class="spark spark-4" aria-hidden="true"></span><span class="spark spark-5" aria-hidden="true"></span><span class="spark spark-6" aria-hidden="true"></span></button></div></header>
       <div class="preview-notice" id="preview-notice" hidden>Gerätevorschau: Einträge bleiben in diesem Browser. Konten und Synchronisierung stehen auf deinem Moduly-Server bereit.</div>
       <main id="main-content" tabindex="-1"></main>
       <footer class="site-footer"><span>moduly · Dein persönlicher Studienplan</span><div><button class="text-button" data-action="report">Problem melden</button><button class="text-button" data-action="legal" data-id="imprint">Impressum</button><button class="text-button" data-action="legal" data-id="privacy">Datenschutz</button></div></footer>
     </div>
   </div>
   <dialog id="editor" class="modal" aria-labelledby="dialog-title"><div class="modal-head"><h2 id="dialog-title"></h2><button class="icon-button" data-action="close-dialog" aria-label="Dialog schließen">×</button></div><div id="dialog-content"></div></dialog>
+  <datalist id="university-catalog">
+    <option value="Hochschule Bremen"></option>
+    <option value="Jade Hochschule · Campus Oldenburg"></option>
+    <option value="Universität Bremen"></option>
+  </datalist>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <noscript><p class="noscript">Moduly benötigt JavaScript für deinen privaten Studienplan. Bitte im Browser aktivieren.</p></noscript>
 </body>

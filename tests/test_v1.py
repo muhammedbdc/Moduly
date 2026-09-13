@@ -27,7 +27,7 @@ def sample():
         {'id': 'lab', 'profileId': 'degree-1', 'name': 'Labor', 'ects': 5, 'status': 'passed'},
         {'id': 'next', 'profileId': 'degree-1', 'name': 'Mathematik II', 'ects': 5, 'prerequisites': ['math']},
     ]
-    data['events'] = [{'id': 'exam-1', 'profileId': 'degree-1', 'moduleId': 'next', 'title': 'Prüfung, Teil 1', 'start': '2026-10-25T02:30', 'timezone': 'Europe/Berlin', 'duration': 90}]
+    data['events'] = [{'id': 'exam-1', 'profileId': 'degree-1', 'moduleId': 'next', 'title': 'Prüfung, Teil 1', 'start': '2026-10-25T02:30', 'timezone': 'Europe/Berlin', 'duration': 90, 'reminders': [10080, 1440, 120]}]
     data['tasks'] = [{'id': 'task-1', 'profileId': 'degree-1', 'title': 'Lernen', 'due': '2026-10-24'}]
     data['settings']['activeProfile'] = 'degree-1'
     return validate(data)
@@ -69,7 +69,8 @@ class ModelTests(unittest.TestCase):
     def test_rejects_nan_duplicate_ids_unsafe_links_and_bad_types(self):
         cases = [lambda d: d['modules'][0].update(ects=float('nan')), lambda d: d['modules'].append(d['modules'][0]),
             lambda d: d['profiles'][0].update(source='javascript:alert(1)'), lambda d: d['modules'][0].update(profileId=[]),
-            lambda d: d['events'][0].update(moduleId=[]), lambda d: d['settings'].update(activeProfile={})]
+            lambda d: d['events'][0].update(moduleId=[]), lambda d: d['events'][0].update(reminders=[60]),
+            lambda d: d['settings'].update(activeProfile={})]
         for change in cases:
             data = sample(); change(data)
             with self.assertRaises(Invalid): validate(data)
@@ -81,6 +82,7 @@ class ModelTests(unittest.TestCase):
         self.assertIn(b'DTEND:20261025T020000Z', ics)
         self.assertIn(b'TRIGGER:-P7D', ics)
         self.assertIn(b'TRIGGER:-P1D', ics)
+        self.assertIn(b'TRIGGER:-PT2H', ics)
         data['events'][0]['start'] = '2026-03-29T02:30'
         with self.assertRaises(Invalid): validate(data)
 
@@ -140,6 +142,21 @@ class ApiTests(unittest.TestCase):
         self.assertTrue(password_matches(PASSWORD, row['password_hash']))
         self.assertNotEqual(row['recovery_hash'], response.json['recoveryCode'])
         self.assertNotIn('email', dict(row))
+
+    def test_checked_catalog_contains_named_universities_and_complete_iswi_plan(self):
+        public = self.client.get('/catalog/v1.json')
+        self.assertEqual(public.status_code, 200)
+        self.assertEqual({u['name'] for u in public.json['universities']}, {'Hochschule Bremen', 'Jade Hochschule', 'Universität Bremen'})
+        self.register()
+        response = self.client.get('/api/templates')
+        self.assertEqual(response.status_code, 200)
+        template = next(t for t in response.json['templates'] if t['id'] == 'hsb-iswi-beng-po-2025')
+        self.assertEqual(template['data']['profiles'][0]['targetEcts'], 210)
+        self.assertEqual(template['data']['profiles'][0]['semesters'], 7)
+        self.assertEqual(len(template['data']['modules']), 32)
+        self.assertEqual(sum(module['ects'] for module in template['data']['modules']), 210)
+        self.assertEqual({semester: sum(m['ects'] for m in template['data']['modules'] if m['semester'] == semester) for semester in range(1, 8)}, {semester: 30 for semester in range(1, 8)})
+        self.assertTrue(all(module['status'] == 'open' and module['source'] for module in template['data']['modules']))
 
     def test_anonymous_and_cross_origin_requests_are_rejected(self):
         self.assertEqual(self.client.get('/api/state').status_code, 401)

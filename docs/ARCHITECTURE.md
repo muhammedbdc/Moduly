@@ -8,7 +8,7 @@ Ein Konto besitzt einen `workspaces`-Datensatz mit einer streng validierten Stru
 
 Benutzernamen bestehen aus 3–24 ASCII-Buchstaben, Ziffern oder Unterstrichen. SQLite verhindert mit `COLLATE NOCASE UNIQUE` doppelte Namen unabhängig von Groß-/Kleinschreibung, auch bei konkurrierender Registrierung.
 
-`templates` und unveränderte `template_versions` sind zentrale Vorlagen. Persönliche Pläne sind Kopien mit neuen Kennungen und werden nie zurück in zentrale Vorlagen geschrieben. Module einer persönlichen Kopie werden als persönlich bearbeitbar markiert. V1 behauptet keine automatische Prüfung offizieller Quellen.
+Der releasegebundene Katalog in `catalog/v1.json` und zusätzliche Datensätze in `templates` sind zentrale Vorlagen. Der Server prüft den eingebauten Katalog beim Start vollständig mit denselben Fachregeln wie Nutzerdaten. Persönliche Pläne sind Kopien mit neuen Kennungen und werden nie zurück in zentrale Vorlagen geschrieben. Module einer persönlichen Kopie werden als persönlich bearbeitbar markiert. Der Katalog wurde manuell aus verlinkten Primärquellen übertragen; Moduly behauptet keine automatische oder dauerhafte Aktualität.
 
 ## Sitzungen und Schreibschutz
 
@@ -37,11 +37,11 @@ Noten von 1,0 bis 5,0, bestanden bis 4,0; abweichende Notensysteme sind in V1 ni
 
 Voraussetzungen müssen andere Module desselben Profils sein und dürfen keinen Kreis bilden. Der Abschlussarbeitscheck vergleicht nur eingetragene Mindest-ECTS und markierte Pflichtmodule. Weitere formale Zulassungsbedingungen werden nicht automatisch beurteilt.
 
-Termine speichern lokale Wandzeit plus IANA-Zeitzone. Nicht existierende Zeiten bei der Zeitumstellung werden abgelehnt; doppelte Zeiten verwenden das erste Vorkommen. ICS exportiert UTC-Start/Ende, stabile UIDs, korrekt gefaltete UTF-8-Zeilen und zwei Erinnerungen. Es handelt sich um einen Dateiimport, kein Kalenderabonnement.
+Termine speichern lokale Wandzeit plus IANA-Zeitzone. Nicht existierende Zeiten bei der Zeitumstellung werden abgelehnt; doppelte Zeiten verwenden das erste Vorkommen. ICS exportiert UTC-Start/Ende, stabile UIDs, korrekt gefaltete UTF-8-Zeilen und die pro Termin ausgewählten Erinnerungen. Zur Wahl stehen eine Woche, ein Tag und zwei Stunden vorher. Es handelt sich um einen Dateiimport, kein Kalenderabonnement.
 
 ## Grenzen und spätere Erweiterungen
 
-V1 enthält keine E-Mail-Zustellung, verifizierten Administrator-E-Mails, MFA, automatischen Studienkatalog, Scraper, beliebigen Dokumentuploads, öffentlichen Community-Beiträge, Discord-Anbindung, Notenanerkennungsautomatik oder Werbung. Operatorrollen werden über die Serverkonsole vergeben. Schutz gegen einen kompromittierten Server, Ende-zu-Ende-Verschlüsselung und eine unabhängige Sicherheitsprüfung sind nicht enthalten.
+V1 enthält keine E-Mail-Zustellung, verifizierten Administrator-E-Mails, MFA, automatische Katalogaktualisierung, Scraper, beliebigen Dokumentuploads, öffentlichen Community-Beiträge, Discord-Anbindung, Notenanerkennungsautomatik oder Werbung. Operatorrollen werden über die Serverkonsole vergeben. Schutz gegen einen kompromittierten Server, Ende-zu-Ende-Verschlüsselung und eine unabhängige Sicherheitsprüfung sind nicht enthalten.
 
 Für einen späteren größeren Dienst: separate relationale Planentitäten, automatisierte externe Backups samt Alarmierung, MFA für Verwaltung, feinere Rollen, manuell geprüfte Datenquellen und eine rechtliche Prüfung der konkret aktivierten Community-Funktionen ergänzen. Diese Funktionen werden nicht als bereits verfügbar dargestellt.
 

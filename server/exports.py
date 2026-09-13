@@ -41,7 +41,9 @@ def calendar(events, modules):
             f'DTSTART:{start:%Y%m%dT%H%M%SZ}', f'DTEND:{end:%Y%m%dT%H%M%SZ}',
             'SUMMARY:' + ics_escape(event['title']), 'LOCATION:' + ics_escape(event['location']),
             'DESCRIPTION:' + ics_escape(description)])
-        for trigger in ('-P7D', '-P1D'):
+        trigger_by_minutes = {10080: '-P7D', 1440: '-P1D', 120: '-PT2H'}
+        for minutes in event.get('reminders', [10080, 1440]):
+            trigger = trigger_by_minutes[minutes]
             lines.extend(['BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + ics_escape(event['title']), f'TRIGGER:{trigger}', 'END:VALARM'])
         lines.append('END:VEVENT')
     lines.append('END:VCALENDAR')

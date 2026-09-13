@@ -152,11 +152,17 @@ def validate(data):
                 raise ValueError()
         except (ValueError, ZoneInfoNotFoundError):
             raise Invalid('Ungültiges Datum, Zeitzone oder Uhrzeit bei Zeitumstellung.') from None
+        reminders = e.get('reminders', [10080, 1440])
+        if (not isinstance(reminders, list) or len(reminders) > 3 or
+                any(isinstance(minutes, bool) or minutes not in (10080, 1440, 120) for minutes in reminders) or
+                len(set(reminders)) != len(reminders)):
+            raise Invalid('Ungültige Kalendererinnerungen.')
         result['events'].append({'id': e['id'], 'profileId': e['profileId'], 'moduleId': module_id,
             'title': text(e.get('title'), 150, True), 'start': start, 'timezone': zone,
             'duration': number(e.get('duration', 90), 1, 1440, True),
             'kind': choice(e.get('kind', 'exam'), ('exam', 'submission', 'presentation', 'lab', 'registration', 'deadline', 'personal')),
-            'location': text(e.get('location', ''), 300), 'notes': text(e.get('notes', ''), 4000)})
+            'location': text(e.get('location', ''), 300), 'notes': text(e.get('notes', ''), 4000),
+            'reminders': reminders})
     for t in rows(data, 'tasks', 2000):
         if uid(t.get('profileId')) not in profiles:
             raise Invalid('Aufgabe gehört zu keinem Studienprofil.')

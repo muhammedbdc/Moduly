@@ -11,7 +11,7 @@ for path in target.iterdir():
         shutil.rmtree(path)
     else:
         path.unlink()
-files = ['index.html', 'assets/app.js', 'assets/api.js', 'assets/domain.js', 'assets/styles.css', 'assets/v1.css', 'assets/favicon.svg']
+files = ['index.html', 'assets/app.js', 'assets/api.js', 'assets/domain.js', 'assets/styles.css', 'assets/v1.css', 'assets/favicon.svg', 'catalog/v1.json']
 for file in files:
     destination = target / file
     destination.parent.mkdir(parents=True, exist_ok=True)

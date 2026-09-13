@@ -22,8 +22,8 @@ test('profile deletion removes only the matching profile and its rows', () => {
   assert.equal(data.profiles.length, 1); assert.equal(data.settings.activeProfile, 'other');
   assert.equal(data.modules.length, 0); assert.equal(data.events.length, 0); assert.equal(data.tasks.length, 0);
 });
-test('invalid imports cannot inject duplicates, grades, sources or prerequisite cycles', () => {
-  for (const change of [d => { d.modules[0].ects = NaN; }, d => { d.modules.push(d.modules[0]); }, d => { d.modules[0].grade = 5; }, d => { d.modules[0].source = 'javascript:alert(1)'; }, d => { d.modules[0].prerequisites = [d.modules[1].id]; d.modules[1].prerequisites = [d.modules[0].id]; }]) {
+test('invalid imports cannot inject duplicates, grades, sources, reminders or prerequisite cycles', () => {
+  for (const change of [d => { d.modules[0].ects = NaN; }, d => { d.modules.push(d.modules[0]); }, d => { d.modules[0].grade = 5; }, d => { d.modules[0].source = 'javascript:alert(1)'; }, d => { d.events[0].reminders = [60]; }, d => { d.modules[0].prerequisites = [d.modules[1].id]; d.modules[1].prerequisites = [d.modules[0].id]; }]) {
     const data = demoState(); change(data); assert.throws(() => validateClient(data));
   }
 });
@@ -32,6 +32,7 @@ test('calendar and countdown agree on summer time, winter time and autumn fold',
   event.start = '2026-10-25T02:30';
   assert.equal(new Date(eventInstant(event)).toISOString(), '2026-10-25T00:30:00.000Z');
   assert.match(calendar([event], data.modules), /DTSTART:20261025T003000Z/);
+  event.reminders = [120]; assert.match(calendar([event], data.modules), /TRIGGER:-PT2H/);
   event.start = '2026-01-15T09:00'; assert.equal(new Date(eventInstant(event)).getUTCHours(), 8);
   event.start = '2026-07-15T09:00'; assert.equal(new Date(eventInstant(event)).getUTCHours(), 7);
   event.start = '2026-03-29T02:30'; assert.ok(Number.isNaN(eventInstant(event))); assert.throws(() => validateClient(data));

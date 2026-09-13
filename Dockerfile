@@ -8,6 +8,7 @@ COPY requirements.lock ./
 RUN pip install --no-cache-dir -r requirements.lock
 COPY --chown=moduly:moduly server ./server
 COPY --chown=moduly:moduly assets ./assets
+COPY --chown=moduly:moduly catalog ./catalog
 COPY --chown=moduly:moduly index.html ./
 COPY --chown=moduly:moduly deploy/entrypoint.sh ./deploy/entrypoint.sh
 USER 10001:10001

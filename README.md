@@ -11,17 +11,18 @@ Dein Studium, in deinem Plan. Ein persönlicher Studienplaner für eine kleine N
 - Module mit ECTS, Semester, Status, Note, Versuchen, Quellen, Notizen, Hilfsmitteln und Prüfungsdauer. Eigene Einträge sind als **„Von dir bearbeitet“** markiert.
 - Prüfungsbestandteile mit Gewichtung, Pflichtbestandteilen und Ergebnis; Abhängigkeiten zwischen Modulen mit Kreisprüfung.
 - Berechneter Studienfortschritt und ECTS-gewichteter Notenschnitt. Persönlicher Voraussetzungencheck für die Abschlussarbeit.
-- Prüfungen, Abgaben und weitere Fristen mit IANA-Zeitzonen, Bearbeitung, Löschung, Monatskalender und ICS-Export mit Erinnerungen.
+- Prüfungen, Abgaben und weitere Fristen mit IANA-Zeitzonen, Bearbeitung, Löschung, Monatskalender und ICS-Export. Pro Termin sind Erinnerungen eine Woche, einen Tag und zwei Stunden vorher frei wählbar.
 - Lernaufgaben mit Frist, Aufwand, Notizen und Abschlussstatus.
-- Anpassbare Dashboard-Reihenfolge, ausblendbare Bereiche, kompakte Darstellung, Hell-/Dunkelmodus und abschaltbare Animationen.
+- Anpassbare Dashboard-Reihenfolge, ausblendbare Bereiche, kompakte Darstellung, Hell-/Dunkelmodus und abschaltbare Animationen. Anmelden, Erstellen, Abmelden und Löschen besitzen eigene Tastatur-, Maus- und Touch-Reaktionen.
 - JSON-Vollsicherung und Import mit Vorschau; gefilterte PDF-, CSV-, Markdown-, TXT- und Kalenderexporte.
 - Versionskonfliktschutz bei mehreren Geräten und Wiederherstellung von bis zu 20 früheren Planständen innerhalb von 30 Tagen.
 - Kontoname/Passwort ändern, Wiederherstellungscode erneuern, andere Sitzungen abmelden und Konto mit Passwortbestätigung löschen.
 - Private Fehlermeldungen und eine kleine Verwaltungsansicht, die keine privaten Studienpläne ausliest.
-- Versionierte, vom Betreiber über die Konsole eingespielte Vorlagen. Eine persönliche Kopie wird nie durch eine neue Vorlagenversion überschrieben.
+- Ein manuell geprüfter Hochschulkatalog für Hochschule Bremen, Jade Hochschule am Campus Oldenburg und Universität Bremen. Enthalten ist die vollständige persönliche Vorlage für ISWI B.Eng. nach der HSB-BPO vom 22. April 2025 mit 32 Modulen und 210 ECTS.
+- Zusätzliche versionierte Vorlagen können vom Betreiber über die Konsole eingespielt werden. Eine persönliche Kopie wird nie durch eine neue Vorlagenversion überschrieben.
 - Docker-Betrieb mit Gunicorn, SQLite und Caddy; verschlüsselte tägliche Backups mit Prüfung und Löschjournal beim Restore.
 
-Es werden **keine erfundenen offiziellen Hochschuldaten** ausgeliefert. Die optionale Vorschau enthält frei erfundene Beispiele. Produktive Nutzer starten mit einem leeren Plan oder einer vom Betreiber eingespielten Vorlage. Eine neue Prüfungsordnung sollte als neue Vorlage mit eigener Kennung angelegt werden.
+Offizielle Angaben werden nur mit verlinkter Primärquelle aufgenommen. Unbekannte Prüfungsdauern, Hilfsmittel, individuelle Zulassungsvoraussetzungen und konkrete Wahlpflichtentscheidungen bleiben offen. Die HSB-Vorlage ist eine bearbeitbare persönliche Kopie und keine amtliche Leistungs- oder Zulassungsauskunft. Für Jade Hochschule und Universität Bremen ist noch kein konkreter Studiengang hinterlegt, weil bisher keiner benannt wurde. Details und Quellen stehen im [Studienkatalog](docs/STUDY-CATALOG.md).
 
 Große Community-Funktionen, Rankings, Discord, KI-Importe, Werbung und öffentliche Profile gehören nicht zu V1.
 
@@ -76,6 +77,8 @@ GitHub Actions prüft diese Abläufe und den Start des Produktionscontainers, be
 | `assets/api.js` | Servertransport und explizite Gerätevorschau |
 | `assets/domain.js` | Berechnung, Kalender und Importprüfung |
 | `assets/styles.css`, `assets/v1.css` | Gestaltung, Layout und reduzierte Bewegung |
+| `catalog/v1.json` | Geprüfte Hochschulliste und mit Quellen belegte Studienvorlagen |
+| `server/catalog.py` | Prüfung und sichere Bereitstellung des eingebauten Katalogs |
 | `server/app.py` | Konten, Sitzungen, persönliche API und Verwaltung |
 | `server/model.py` | Serverseitige Validierung und Berechnung |
 | `server/exports.py` | Private Downloads einschließlich PDF und ICS |
@@ -85,7 +88,7 @@ GitHub Actions prüft diese Abläufe und den Start des Produktionscontainers, be
 | `tests/` | API-, Berechnungs- und Bedienablauftests |
 | `docs/` | Hosting, Datenschutzbetrieb und V1-Grenzen |
 
-Weitere Details: [Architektur](docs/ARCHITECTURE.md), [Betrieb und Datenschutz](docs/OPERATIONS.md), [Designquellen](ATTRIBUTION.md).
+Weitere Details: [Architektur](docs/ARCHITECTURE.md), [Studienkatalog](docs/STUDY-CATALOG.md), [Betrieb und Datenschutz](docs/OPERATIONS.md), [Designquellen](ATTRIBUTION.md).
 
 ## Vor dem echten Betrieb
 

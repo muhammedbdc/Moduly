@@ -1,0 +1,111 @@
+{
+  "catalogVersion": 1,
+  "checkedAt": "2026-09-13",
+  "universities": [
+    {
+      "id": "hochschule-bremen",
+      "name": "Hochschule Bremen",
+      "location": "Bremen",
+      "source": "https://www.hs-bremen.de/"
+    },
+    {
+      "id": "jade-hochschule-oldenburg",
+      "name": "Jade Hochschule",
+      "location": "Campus Oldenburg",
+      "source": "https://www.jade-hs.de/ueber-uns/wir-stellen-uns-vor/studienorte/"
+    },
+    {
+      "id": "universitaet-bremen",
+      "name": "Universität Bremen",
+      "location": "Bremen",
+      "source": "https://www.uni-bremen.de/studium"
+    }
+  ],
+  "templates": [
+    {
+      "id": "hsb-iswi-beng-po-2025",
+      "version": 1,
+      "updated_at": 1789257600,
+      "checkedAt": "2026-09-13",
+      "verification": "Manuell aus den verlinkten offiziellen Hochschul- und Rechtsquellen übertragen.",
+      "notice": "Die Vorlage bildet den veröffentlichten Studienverlauf ab. Wahlpflichtentscheidungen, konkrete Prüfungsdauer, Hilfsmittel und persönliche Zulassungsvoraussetzungen bleiben offen.",
+      "sources": [
+        {
+          "label": "Studiengang an der Hochschule Bremen",
+          "url": "https://www.hs-bremen.de/studieren/studiengang/internationaler-studiengang-wirtschaftsingenieurwesen-b-eng/"
+        },
+        {
+          "label": "Fachspezifische Bachelorprüfungsordnung vom 22. April 2025",
+          "url": "https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d"
+        }
+      ],
+      "data": {
+        "profiles": [
+          {
+            "id": "hsb-iswi25",
+            "name": "Internationaler Studiengang Wirtschaftsingenieurwesen",
+            "university": "Hochschule Bremen",
+            "degree": "Bachelor of Engineering",
+            "po": "BPO 2025 · WiSe 2025/26",
+            "targetEcts": 210,
+            "semesters": 7,
+            "currentSemester": 1,
+            "thesisEcts": 0,
+            "archived": false,
+            "source": "https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d"
+          }
+        ],
+        "modules": [
+          {"id":"iswi-1-1","profileId":"hsb-iswi25","name":"Mathematik I","code":"1.1","ects":6,"semester":1,"examType":"Klausur","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-1-2","profileId":"hsb-iswi25","name":"Physik","code":"1.2","ects":6,"semester":1,"examType":"Klausur","components":[{"id":"iswi-1-2-a","name":"Physik"},{"id":"iswi-1-2-b","name":"Elektrotechnik"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-1-3","profileId":"hsb-iswi25","name":"Werkstofftechnik","code":"1.3","ects":6,"semester":1,"examType":"Klausur","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-1-4","profileId":"hsb-iswi25","name":"Wirtschaftswissenschaften","code":"1.4","ects":6,"semester":1,"examType":"Klausur oder Portfolio","components":[{"id":"iswi-1-4-a","name":"Volkswirtschaftslehre"},{"id":"iswi-1-4-b","name":"Betriebswirtschaftslehre"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-1-5","profileId":"hsb-iswi25","name":"Technisches Englisch und Wirtschaftsenglisch","code":"1.5","ects":6,"semester":1,"examType":"Klausur oder mündliche Prüfung","components":[{"id":"iswi-1-5-a","name":"Englisch"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+
+          {"id":"iswi-2-1","profileId":"hsb-iswi25","name":"Mathematik II","code":"2.1","ects":6,"semester":2,"examType":"Klausur","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-2-2","profileId":"hsb-iswi25","name":"Qualitätsmanagement und Messtechnik","code":"2.2","ects":6,"semester":2,"examType":"Klausur oder Portfolio + Studienleistung","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-2-3","profileId":"hsb-iswi25","name":"Informatik","code":"2.3","ects":6,"semester":2,"examType":"Klausur oder Hausarbeit","components":[{"id":"iswi-2-3-a","name":"Informatik Grundlagen 1"},{"id":"iswi-2-3-b","name":"Informatik Grundlagen 2"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-2-4","profileId":"hsb-iswi25","name":"Nationales Recht","code":"2.4","ects":6,"semester":2,"examType":"Klausur oder Hausarbeit","components":[{"id":"iswi-2-4-a","name":"BGB"},{"id":"iswi-2-4-b","name":"HGB"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-2-5","profileId":"hsb-iswi25","name":"BWL: Finanzmanagement","code":"2.5","ects":6,"semester":2,"examType":"Klausur","components":[{"id":"iswi-2-5-a","name":"Wirtschaftsmathematik und Statistik"},{"id":"iswi-2-5-b","name":"Investition und Finanzierung"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+
+          {"id":"iswi-3-1","profileId":"hsb-iswi25","name":"Produktions- und Prozesstechnologie","code":"3.1","ects":6,"semester":3,"examType":"Klausur","components":[{"id":"iswi-3-1-a","name":"Fertigungstechnologie"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-3-2","profileId":"hsb-iswi25","name":"Energietechnik","code":"3.2","ects":6,"semester":3,"examType":"Klausur + zwei Studienleistungen oder Portfolio","components":[{"id":"iswi-3-2-a","name":"Technische Wärmelehre"},{"id":"iswi-3-2-b","name":"Energietechnik"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-3-3","profileId":"hsb-iswi25","name":"Technische Mechanik","code":"3.3","ects":6,"semester":3,"examType":"Klausur","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-3-4","profileId":"hsb-iswi25","name":"BWL: Rechnungswesen","code":"3.4","ects":6,"semester":3,"examType":"Klausur","components":[{"id":"iswi-3-4-a","name":"Externes Rechnungswesen"},{"id":"iswi-3-4-b","name":"Internes Rechnungswesen"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-3-5","profileId":"hsb-iswi25","name":"BWL: Personal und Organisation, Marketing","code":"3.5","ects":6,"semester":3,"examType":"Klausur oder Portfolio","components":[{"id":"iswi-3-5-a","name":"Personal und Organisation"},{"id":"iswi-3-5-b","name":"Marketing"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+
+          {"id":"iswi-4-1","profileId":"hsb-iswi25","name":"Technische Konstruktion","code":"4.1","ects":6,"semester":4,"examType":"Klausur oder Portfolio","components":[{"id":"iswi-4-1-a","name":"Maschinenelemente"},{"id":"iswi-4-1-b","name":"Konstruktion / CAD"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-4-2","profileId":"hsb-iswi25","name":"Logistische Systeme und Materialfluss","code":"4.2","ects":6,"semester":4,"examType":"Klausur oder Portfolio","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-4-3","profileId":"hsb-iswi25","name":"Enterprise Resource Planning (ERP)","code":"4.3","ects":6,"semester":4,"examType":"Klausur oder Portfolio","components":[{"id":"iswi-4-3-a","name":"Produktionsplanung und -steuerung / Geschäftsprozesse"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-4-4","profileId":"hsb-iswi25","name":"Projektmanagement","code":"4.4","ects":6,"semester":4,"examType":"Referat oder Projektarbeit","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-4-5","profileId":"hsb-iswi25","name":"BWL: International Management","code":"4.5","ects":6,"semester":4,"examType":"Portfolio","components":[{"id":"iswi-4-5-a","name":"International Management"},{"id":"iswi-4-5-b","name":"International External Auditing"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+
+          {"id":"iswi-5-1","profileId":"hsb-iswi25","name":"Vorbereitung Ausland","code":"5.1","ects":6,"semester":5,"examType":"Portfolio · unbenotet","components":[{"id":"iswi-5-1-a","name":"Interkulturelle Kommunikation"},{"id":"iswi-5-1-b","name":"Social Skills"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-5-2","profileId":"hsb-iswi25","name":"Auslandsstudium: Modul 1","code":"5.2","ects":6,"semester":5,"examType":"Wirtschafts- oder technischer Schwerpunkt","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-5-3","profileId":"hsb-iswi25","name":"Auslandsstudium: Modul 2","code":"5.3","ects":6,"semester":5,"examType":"Wirtschafts- oder technischer Schwerpunkt","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-5-4","profileId":"hsb-iswi25","name":"Auslandsstudium: Wahlpflichtmodul 1","code":"5.4","ects":6,"semester":5,"examType":"Wahlpflichtprüfung der Partnerhochschule","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-5-5","profileId":"hsb-iswi25","name":"Auslandsstudium: Wahlpflichtmodul 2","code":"5.5","ects":6,"semester":5,"examType":"Wahlpflichtprüfung der Partnerhochschule","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+
+          {"id":"iswi-6-1-4","profileId":"hsb-iswi25","name":"Auslandspraktikum","code":"6.1–6.4","ects":24,"semester":6,"examType":"Praktikum · mindestens 20 Wochen","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-6-5","profileId":"hsb-iswi25","name":"Nachbereitung Ausland","code":"6.5","ects":6,"semester":6,"examType":"Präsentation und Bericht","components":[{"id":"iswi-6-5-a","name":"Expatriateerfahrung / Cases / Präsentationen"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+
+          {"id":"iswi-7-1","profileId":"hsb-iswi25","name":"Schwerpunkt 1","code":"7.1","ects":6,"semester":7,"examType":"Wahlpflicht: Marketing, Controlling oder Logistics / Operations Management","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-7-2","profileId":"hsb-iswi25","name":"Schwerpunkt 2","code":"7.2","ects":6,"semester":7,"examType":"Wahlpflicht: Marketing, Controlling oder Logistics / Operations Management","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-7-3","profileId":"hsb-iswi25","name":"Technisches Produktmanagement","code":"7.3","ects":6,"semester":7,"examType":"Klausur, Hausarbeit oder Referat","components":[{"id":"iswi-7-3-a","name":"Technisches Innovationsmanagement"},{"id":"iswi-7-3-b","name":"PDM / EDM Produktdatenmanagement"}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-7-4","profileId":"hsb-iswi25","name":"Bachelorprojekt","code":"7.4","ects":6,"semester":7,"examType":"Projektbericht · unbenotet","source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"},
+          {"id":"iswi-7-5","profileId":"hsb-iswi25","name":"Bachelorthesis","code":"7.5","ects":6,"semester":7,"examType":"Bachelorthesis und Kolloquium","components":[{"id":"iswi-7-5-a","name":"Bachelorthesis","weight":75,"required":true},{"id":"iswi-7-5-b","name":"Kolloquium","weight":25,"required":true}],"source":"https://www.transparenz.bremen.de/metainformationen/bachelorpruefungsordnung-der-hochschule-bremen-fuer-den-internationalen-studiengang-wirtschaftsingenieurwesen-fachspezifischer-teil-vom-22-april-2025-294388?template=20_gp_ifg_meta_detail_d","sourceDate":"22.04.2025"}
+        ],
+        "events": [],
+        "tasks": [],
+        "settings": {
+          "activeProfile": "hsb-iswi25",
+          "widgets": ["progress", "exams", "tasks", "note"],
+          "note": "",
+          "compact": false,
+          "motion": true,
+          "theme": "light"
+        }
+      }
+    }
+  ]
+}

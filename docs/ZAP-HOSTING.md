@@ -60,7 +60,7 @@ Mit `docker compose config --quiet` werden keine aufgelösten Geheimnisse ausgeg
 docker compose logs --tail=80 web caddy
 ```
 
-Erstelle dein Konto im Browser mit dem Einladungscode. Sichere den Wiederherstellungscode sofort. Anschließend kannst du dein eigenes Studium anlegen. Es werden keine erfundenen Studiengänge als offiziell ausgegeben.
+Erstelle dein Konto im Browser mit dem Einladungscode. Sichere den Wiederherstellungscode sofort. Anschließend kannst du dein eigenes Studium anlegen oder die mit Quellen belegte ISWI-BPO-2025-Vorlage als persönliche Kopie übernehmen. Nicht belegte Angaben bleiben offen.
 
 ## 4. Verwaltung freischalten
 
