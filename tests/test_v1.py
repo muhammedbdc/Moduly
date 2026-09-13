@@ -105,7 +105,9 @@ class ApiTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.directory = Path(self.temporary.name)
-        self.config = {'TESTING': True, 'DATA_DIR': self.directory, 'DATABASE': self.directory / 'test.sqlite3', 'JOURNAL': self.directory / 'deletions.jsonl', 'ORIGIN': ORIGIN, 'PRODUCTION': False}
+        self.config = {'TESTING': True, 'DATA_DIR': self.directory, 'DATABASE': self.directory / 'test.sqlite3', 'JOURNAL': self.directory / 'deletions.jsonl', 'ORIGIN': ORIGIN, 'PRODUCTION': False,
+            # Test fixtures must not inherit the deployment smoke test's closed registration.
+            'REGISTRATION': True, 'INVITE_CODE': ''}
         self.app = create_app(self.config)
         self.client = self.app.test_client()
 
