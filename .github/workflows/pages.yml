@@ -16,6 +16,13 @@ concurrency:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    env:
+      MODULY_DOMAIN: moduly.example
+      MODULY_OPERATOR_NAME: CI Test Operator
+      MODULY_OPERATOR_ADDRESS: CI Test Address
+      MODULY_OPERATOR_EMAIL: ci@example.org
+      MODULY_HOST_DESCRIPTION: Isolated CI test environment
+      MODULY_REGISTRATION: 'false'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -32,11 +39,17 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: npm run check && npm test
       - name: Build production container
-        run: docker build -t moduly:test .
-      - name: Check container startup
+        run: docker build -t moduly:local .
+      - name: Prepare ephemeral backup key
+        run: python -c "from cryptography.fernet import Fernet; print('MODULY_BACKUP_KEY=' + Fernet.generate_key().decode())" >> "$GITHUB_ENV"
+      - name: Validate HTTPS configuration
+        run: docker run --rm -v "$PWD/deploy/Caddyfile:/etc/caddy/Caddyfile:ro" -e MODULY_DOMAIN -e MODULY_OPERATOR_EMAIL caddy:2.10.2-alpine caddy validate --config /etc/caddy/Caddyfile
+      - name: Check production startup and backup with Compose
         run: |
-          docker run -d --name moduly-ci -p 127.0.0.1:8000:8000 moduly:test
+          docker compose config --quiet
+          docker compose run -d --no-deps --name moduly-ci -p 127.0.0.1:8000:8000 web
           python -c "import time,urllib.request; time.sleep(8); print(urllib.request.urlopen('http://127.0.0.1:8000/healthz',timeout=10).read().decode())"
+          docker compose run --rm --no-deps backup python -m server.manage backup
       - name: Container log on failure
         if: failure()
         run: docker logs moduly-ci || true

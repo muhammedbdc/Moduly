@@ -346,7 +346,11 @@ def create_app(test_config=None):
         return response
 
     def workspace():
-        return db().execute('SELECT * FROM workspaces WHERE user_id=?', (g.user['id'],)).fetchone()
+        row = db().execute('SELECT * FROM workspaces WHERE user_id=?', (g.user['id'],)).fetchone()
+        if row is None:
+            from werkzeug.exceptions import Unauthorized
+            raise Unauthorized('Das Konto ist nicht mehr verfügbar. Bitte erneut anmelden.')
+        return row
 
     def save_state(state, revision):
         if isinstance(revision, bool) or not isinstance(revision, int) or revision < 0:

@@ -187,7 +187,7 @@ def main():
         data = validate(json.loads(Path(args.file).read_text()))
         if len(data['profiles']) != 1 or not data['profiles'][0]['source'] or any(not m['source'] for m in data['modules']):
             raise Invalid('Genau ein Studienprofil und offizielle Quellenlinks an Profil und Modulen erforderlich.')
-        if data['events'] or data['tasks'] or data['settings']['note'] or any(m['notes'] or m['grade'] is not None or m['attempts'] or m['status'] != 'open' for m in data['modules']):
+        if data['events'] or data['tasks'] or data['settings']['note'] or any(m['notes'] or m['grade'] is not None or m['attempts'] or m['status'] != 'open' or any(c['grade'] is not None or c['passed'] for c in m['components']) for m in data['modules']):
             raise Invalid('Vorlage darf keine persönlichen Leistungen, Notizen oder Termine enthalten.')
         connection = connect(app.config['DATABASE'])
         connection.execute('BEGIN IMMEDIATE')

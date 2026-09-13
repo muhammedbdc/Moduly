@@ -87,8 +87,10 @@ def markdown(state):
     for p in state['profiles']:
         out += [f"## {clean(p['name'])}", '', f"{clean(p['university'])} · {clean(p['degree'])} · PO {clean(p['po'])}", '',
             '| Modul | Semester | ECTS | Status | Note | Versuche |', '| --- | ---: | ---: | --- | ---: | ---: |']
-        for m in sorted((m for m in state['modules'] if m['profileId'] == p['id']), key=lambda m: (m['semester'], m['name'])):
+        modules = sorted((m for m in state['modules'] if m['profileId'] == p['id']), key=lambda m: (m['semester'], m['name']))
+        for m in modules:
             out.append('| ' + ' | '.join(clean(x if x is not None else '') for x in [m['name'], m['semester'], m['ects'], STATUS[m['status']], m['grade'], m['attempts']]) + ' |')
+        for m in modules:
             if m['notes']:
                 out += ['', f"Notiz zu {clean(m['name'])}: {clean(m['notes'])}", '']
         out += ['', '### Termine', '']
@@ -104,6 +106,35 @@ def markdown(state):
                     out += [f"  {clean(t['notes'])}"]
     if state['settings']['note']:
         out += ['', '## Persönliche Notiz', '', state['settings']['note']]
+    return '\n'.join(out) + '\n'
+
+
+def plain_text(state):
+    out = ['MEIN STUDIUM', 'Persönliche Einträge. Keine offizielle Leistungsübersicht.', '']
+    for p in state['profiles']:
+        out += [p['name'], ' · '.join(filter(None, [p['university'], p['degree'], 'PO ' + p['po'] if p['po'] else ''])), '']
+        for m in sorted((m for m in state['modules'] if m['profileId'] == p['id']), key=lambda m: (m['semester'], m['name'])):
+            out += [f"{m['name']} ({m['code'] or 'Modulnummer offen'})",
+                f"Semester {m['semester']} · {m['ects']} ECTS · {STATUS[m['status']]}"]
+            if m['grade'] is not None:
+                out += [f"Note: {m['grade']}"]
+            if m['attempts'] is not None:
+                out += [f"Versuche: {m['attempts']}"]
+            if m['notes']:
+                out += [m['notes']]
+            out += ['']
+        if state['events']:
+            out += ['TERMINE']
+            for e in state['events']:
+                if e['profileId'] == p['id']:
+                    out += [f"{e['start'].replace('T', ' ')} ({e['timezone']}) · {e['title']} · {e['location']}", e['notes']]
+        if state['tasks']:
+            out += ['', 'AUFGABEN']
+            for t in state['tasks']:
+                if t['profileId'] == p['id']:
+                    out += [f"{'Erledigt' if t['done'] else 'Offen'}: {t['title']} · {t['due']} · {t['minutes']} Min.", t['notes']]
+    if state['settings']['note']:
+        out += ['', 'PERSÖNLICHE NOTIZ', state['settings']['note']]
     return '\n'.join(out) + '\n'
 
 
@@ -181,7 +212,8 @@ def export(state, fmt, profile_id='', options=None, user=None):
             writer.writerow([csv_safe(x) for x in [names[m['profileId']], m['name'], m['code'], m['semester'], m['ects'], STATUS[m['status']], m['grade'], m['attempts'], m['source'], m['notes']]])
         return ('\ufeff' + buffer.getvalue()).encode(), 'text/csv', 'moduly-module.csv'
     if fmt in ('md', 'txt'):
-        return markdown(state).encode(), 'text/plain' if fmt == 'txt' else 'text/markdown', 'moduly.' + fmt
+        content = plain_text(state) if fmt == 'txt' else markdown(state)
+        return content.encode(), 'text/plain' if fmt == 'txt' else 'text/markdown', 'moduly.' + fmt
     if fmt == 'pdf':
         return pdf(state), 'application/pdf', 'moduly-studienplan.pdf'
     raise Invalid('Unbekanntes Exportformat.')
